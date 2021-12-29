@@ -220,6 +220,9 @@ const ERC20ABI = [
     type: "event",
   },
 ];
+
+const WILL3ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"sender","type":"address"}],"name":"CreateWill3","type":"event"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"allWill3","outputs":[{"internalType":"address","name":"assetAddress","type":"address"},{"internalType":"uint256","name":"percentageOfHoldings","type":"uint256"},{"internalType":"address","name":"receivingAddress","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address[]","name":"assetAddress","type":"address[]"},{"internalType":"uint256[]","name":"percentageOfHoldings","type":"uint256[]"},{"internalType":"address[]","name":"receivingAddress","type":"address[]"}],"name":"createWill3","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"will3Address","type":"address"}],"name":"getWill3","outputs":[{"components":[{"internalType":"address","name":"assetAddress","type":"address"},{"internalType":"uint256","name":"percentageOfHoldings","type":"uint256"},{"internalType":"address","name":"receivingAddress","type":"address"}],"internalType":"struct YourContract.Will3[]","name":"myWill3","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"newCreationCost","type":"uint256"}],"name":"setWill3CreationCost","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"will3CreationCost","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+
 const DAIABI = [
   {
     inputs: [
@@ -784,7 +787,7 @@ const DAIABI = [
   },
 ];
 
-// Mainnet DAI, Optimism and Arbitrium Rollup Contracts with local addresses
+// You can add the ABI and address in this file
 module.exports = {
   1: {
     contracts: {
@@ -795,6 +798,10 @@ module.exports = {
       UNI: {
         address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
         abi: ERC20ABI,
+      },
+      WILL3: {
+        address: "0x55C41f44eAaf1AfF43a2457e1034678A60Bb99c8",
+        abi: WILL3ABI,
       },
     },
   },
