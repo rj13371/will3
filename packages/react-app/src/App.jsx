@@ -8,6 +8,7 @@ import {
   useOnBlock,
   useUserProviderAndSigner,
 } from "eth-hooks";
+import MoralisUtil from "./utils/MoralisUtil";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
@@ -418,11 +419,7 @@ function App(props) {
 
         <Switch>
           <Route exact path="/">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
+           <MoralisUtil userAddress={address} /> 
 
             <Contract
               name="YourContract"
