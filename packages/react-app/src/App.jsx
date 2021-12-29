@@ -365,6 +365,29 @@ function App(props) {
       {networkDisplay}
       <BrowserRouter>
 
+      <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
+          <Menu.Item key="/">
+            <Link
+              onClick={() => {
+                setRoute("/");
+              }}
+              to="/"
+            >
+              YourContract
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/dashboard">
+            <Link
+              onClick={() => {
+                setRoute("/dashboard");
+              }}
+              to="/dashboard"
+            >
+              Dashboard
+            </Link>
+          </Menu.Item>
+          </Menu>
+
 
         <Switch>
           <Route exact path="/">
