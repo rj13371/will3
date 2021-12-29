@@ -10,12 +10,6 @@ contract YourContract {
     event CreateWill3(address sender);
     uint256 public will3CreationCost = 700000; // normally 50000000000000000
 
-    struct dispersement {
-        address assetAddress;
-        uint256 percentageOfHoldings;
-        address receivingAddress;
-    }
-
     struct Will3 {
         address assetAddress;
         uint256 percentageOfHoldings;
