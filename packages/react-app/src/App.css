@@ -1,3 +1,10 @@
 .App {
   text-align: center;
 }
+
+.connect-wallet-button {
+  background-color: white !important;
+  color: black !important;
+  width: 300px;
+  margin-top: 20px;
+}

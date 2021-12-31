@@ -5,8 +5,11 @@ import "hardhat/console.sol";
 
 // import "@openzeppelin/contracts/access/Ownable.sol";
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract YourContract {
+contract YourContract is Ownable {
     event CreateWill3(address sender);
     uint256 public will3CreationCost = 700000; // normally 50000000000000000
 
@@ -23,7 +26,7 @@ contract YourContract {
         console.log("do a dance");
     }
 
-    function setWill3CreationCost(uint256 newCreationCost) public {
+    function setWill3CreationCost(uint256 newCreationCost) public onlyOwner {
         will3CreationCost = newCreationCost;
         console.log(msg.sender, "set generation cost to", newCreationCost);
     }
@@ -83,5 +86,14 @@ contract YourContract {
         }
         console.log(msg.sender, "created a new will3");
         emit CreateWill3(msg.sender);
+    }
+
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function withdraw() external onlyOwner {
+        (bool sent, ) = owner().call{value: address(this).balance}("");
+        require(sent, "Failed to send Ether");
     }
 }
