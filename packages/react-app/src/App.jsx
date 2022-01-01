@@ -394,6 +394,7 @@ function App(props) {
               YourContract
             </Link>
           </Menu.Item>
+          {/*
           <Menu.Item key="/hints">
             <Link
               onClick={() => {
@@ -404,6 +405,7 @@ function App(props) {
               Hints
             </Link>
           </Menu.Item>
+          */}
           {/*
           <Menu.Item key="/exampleui">
             <Link
@@ -415,7 +417,8 @@ function App(props) {
               ExampleUI
             </Link>
           </Menu.Item>
-            */ }
+            */}
+          {/*
           <Menu.Item key="/mainnetdai">
             <Link
               onClick={() => {
@@ -426,6 +429,8 @@ function App(props) {
               Mainnet DAI
             </Link>
           </Menu.Item>
+           */}
+          {/*
           <Menu.Item key="/subgraph">
             <Link
               onClick={() => {
@@ -436,6 +441,7 @@ function App(props) {
               Subgraph
             </Link>
           </Menu.Item>
+           */}
         </Menu>
 
         <Switch>
@@ -477,6 +483,7 @@ function App(props) {
               readContracts={readContracts}
               purpose={purpose}
               loadWeb3Modal={loadWeb3Modal}
+              setRoute={setRoute}
             />
           </Route>
           <Route path="/will3">
