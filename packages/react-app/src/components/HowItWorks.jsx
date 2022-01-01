@@ -13,7 +13,7 @@ const text = `We ask that you please provide percentages and wallet addresses fo
 
 export default function HowItWorks() {
   return (
-    <div style={{ margin: "60px 0px" }}>
+    <div style={{ margin: "80px 0px" }}>
       <h1>How It Works</h1>
       <Collapse style={{ textAlign: "left" }} defaultActiveKey={["1"]} onChange={callback}>
         <Panel header="This is panel header 1" key="1">

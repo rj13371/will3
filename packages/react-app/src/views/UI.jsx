@@ -26,7 +26,7 @@ export default function UI({
       */}
       <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
         <img src={titleImage} />
-        <h2 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h2>
+        <h1 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h1>
         <h4 style={{ marginTop: 48 }}>
           Keep your loved ones and assets safe in your death. Allocate your assets safely and in a trustless fashion.
           Using the Will3 protocol, Will3 will monitor your life status and in the event of your death, confirm and
