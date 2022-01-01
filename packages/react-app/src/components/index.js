@@ -21,3 +21,4 @@ export { default as L2Bridge } from "./L2Bridge";
 export { default as Team } from "./Team";
 export { default as HowItWorks } from "./HowItWorks";
 export { default as AssetSelector } from "./AssetSelector";
+export { default as MoralisUtil } from "./MoralisUtil";

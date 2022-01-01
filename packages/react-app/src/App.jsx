@@ -21,7 +21,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor } from "./helpers";
 // import Hints from "./Hints";
-import { UI, ExampleUI, Hints, Subgraph } from "./views";
+import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
 
 const { ethers } = require("ethers");
 /*
@@ -374,6 +374,16 @@ function App(props) {
               Home
             </Link>
           </Menu.Item>
+          <Menu.Item key="/will3">
+            <Link
+              onClick={() => {
+                setRoute("/will3");
+              }}
+              to="/will3"
+            >
+              Will3
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/">
             <Link
               onClick={() => {
@@ -456,6 +466,21 @@ function App(props) {
           </Route>
           <Route path="/ui">
             <UI
+              address={address}
+              userSigner={userSigner}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              loadWeb3Modal={loadWeb3Modal}
+            />
+          </Route>
+          <Route path="/will3">
+            <Will3
               address={address}
               userSigner={userSigner}
               mainnetProvider={mainnetProvider}
