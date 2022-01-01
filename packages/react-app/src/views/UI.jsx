@@ -3,6 +3,7 @@ import { utils } from "ethers";
 import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
 import React, { useState } from "react";
 import { Address, Balance, Events, AssetSelector, HowItWorks, Team } from "../components";
+import { Link } from "react-router-dom";
 
 export default function UI({
   purpose,
@@ -15,6 +16,7 @@ export default function UI({
   readContracts,
   writeContracts,
   loadWeb3Modal,
+  setRoute,
 }) {
   const [newPurpose, setNewPurpose] = useState("loading...");
   const titleImage = "./../assets/will3.png";
@@ -39,13 +41,15 @@ export default function UI({
               Connect your wallet to continue
             </Button>
           ) : (
-            <Button
-              className="connect-wallet-button"
-              onClick={() => {
-                console.log("clicked");
-              }}
-            >
-              Create or Edit your Will3
+            <Button className="connect-wallet-button">
+              <Link
+                onClick={() => {
+                  setRoute("/will3");
+                }}
+                to="/will3"
+              >
+                Create / Edit Your Will3
+              </Link>
             </Button>
           )}
         </div>
