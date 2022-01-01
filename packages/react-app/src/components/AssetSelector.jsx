@@ -1,30 +1,48 @@
-import { PageHeader } from "antd";
+import { Switch, Menu, Dropdown, Input, Select } from "antd";
 import React from "react";
+const { Option } = Select;
 
-import { Collapse } from "antd";
-
-const { Panel } = Collapse;
-
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
 function callback(key) {
   console.log(key);
 }
 
-const text = `We ask that you please provide percentages and wallet addresses for your benefactor allotment of your assets.`;
+function onChange(checked) {
+  console.log(`switch to ${checked}`);
+}
 
-// displays a page header
+const text = `We ask that you please provide percentages and wallet addresses for your benefactor allotment of your assets.`;
 
 export default function AssetSelector() {
   return (
-    <Collapse defaultActiveKey={["1"]} onChange={callback}>
-      <Panel header="This is panel header 1" key="1">
-        <p>{text}</p>
-      </Panel>
-      <Panel header="This is panel header 2" key="2">
-        <p>{text}</p>
-      </Panel>
-      <Panel header="This is panel header 3" key="3">
-        <p>{text}</p>
-      </Panel>
-    </Collapse>
+    <div>
+      <Switch defaultChecked onChange={onChange} />
+      <Select defaultValue="AVA" style={{ width: 120, margin: "0px 20px" }} onChange={handleChange}>
+        <Option value="AVA">AVA</Option>
+        <Option value="ETH">ETH</Option>
+        <Option value="BTC">BTC</Option>
+        <Option value="PUNK" disabled>
+          CryptoPunks
+        </Option>
+        <Option value="BAYC" disabled>
+          Bored Ape Yacht Club
+        </Option>
+      </Select>
+        %
+      <Input
+        onChange={e => {
+          console.log(e.target.value);
+        }}
+        style={{ width: 50 }}
+      />
+      <Input
+        onChange={e => {
+          console.log(e.target.value);
+        }}
+        style={{ width: 400, minWidth: 300, margin: "0px 20px" }}
+      />
+    </div>
   );
 }
