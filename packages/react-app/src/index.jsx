@@ -6,9 +6,9 @@ import { MoralisProvider } from "react-moralis";
 import App from "./App";
 import "./index.css";
 
-// Kovan Server - Moralis
-const APP_ID = "vuSHldvhCW1bxPzFVZBMsk205D3atbHQSAuAQ8pH";
-const SERVER_URL = "https://ajhkv0lxp8el.usemoralis.com:2053/server";
+// Rinkeby Server - Moralis
+const APP_ID = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
+const SERVER_URL = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 const themes = {
   dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
