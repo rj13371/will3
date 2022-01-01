@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { Address, Balance, Events, AssetSelector, HowItWorks, Team, MoralisUtil } from "../components";
 
 export default function Will3({
-  purpose,
   address,
   mainnetProvider,
   localProvider,
@@ -16,7 +15,6 @@ export default function Will3({
   writeContracts,
   loadWeb3Modal,
 }) {
-  const [newPurpose, setNewPurpose] = useState("loading...");
   const titleImage = "./../assets/will3.png";
 
   return (

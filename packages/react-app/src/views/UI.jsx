@@ -6,7 +6,6 @@ import { Address, Balance, Events, AssetSelector, HowItWorks, Team } from "../co
 import { Link } from "react-router-dom";
 
 export default function UI({
-  purpose,
   address,
   mainnetProvider,
   localProvider,
@@ -18,14 +17,10 @@ export default function UI({
   loadWeb3Modal,
   setRoute,
 }) {
-  const [newPurpose, setNewPurpose] = useState("loading...");
   const titleImage = "./../assets/will3.png";
 
   return (
     <div>
-      {/*
-        ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
-      */}
       <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
         <img src={titleImage} />
         <h1 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h1>
