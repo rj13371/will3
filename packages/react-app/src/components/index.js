@@ -18,5 +18,6 @@ export { default as Timeline } from "./Timeline";
 export { default as TokenBalance } from "./TokenBalance";
 export { default as Wallet } from "./Wallet";
 export { default as L2Bridge } from "./L2Bridge";
-export { default as AssetSelector } from "./AssetSelector";
+export { default as Team } from "./Team";
 export { default as HowItWorks } from "./HowItWorks";
+export { default as AssetSelector } from "./AssetSelector";

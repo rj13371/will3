@@ -11,12 +11,10 @@ function callback(key) {
 
 const text = `We ask that you please provide percentages and wallet addresses for your benefactor allotment of your assets.`;
 
-// displays a page header
-
 export default function HowItWorks() {
   return (
-    <>
-      <h2>How It Works</h2>
+    <div style={{ margin: "60px 0px" }}>
+      <h1>How It Works</h1>
       <Collapse style={{ textAlign: "left" }} defaultActiveKey={["1"]} onChange={callback}>
         <Panel header="This is panel header 1" key="1">
           <p>{text}</p>
@@ -28,6 +26,6 @@ export default function HowItWorks() {
           <p>{text}</p>
         </Panel>
       </Collapse>
-    </>
+    </div>
   );
 }
