@@ -22,7 +22,7 @@ const cardMargin = "0px 25px";
 export default function Team() {
   return (
     <div style={{ marginTop: 80 }}>
-      <h1>Will3 Caretakers</h1>
+      <h2>Will3 Caretakers</h2>
       <Card
         hoverable
         onClick={() => {

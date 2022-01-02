@@ -23,13 +23,13 @@ export default function UI({
     <div>
       <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
         <img src={titleImage} />
-        <h1 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h1>
-        <h4 style={{ marginTop: 48 }}>
+        <h2 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h2>
+        <h5 style={{ marginTop: 48 }}>
           Keep your loved ones and assets safe in your death. Allocate your assets safely and in a trustless fashion.
           Using the Will3 protocol, Will3 will monitor your life status and in the event of your death, confirm and
           honor your last wishes. Decentralized death is a trustless way to make sure your crypto assets end up in the
           right hands.
-        </h4>
+        </h5>
         <div style={{ margin: 8, marginBottom: 80 }}>
           {!address ? (
             <Button className="connect-wallet-button" onClick={loadWeb3Modal}>
