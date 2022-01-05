@@ -399,7 +399,7 @@ function App(props) {
               price={price}
             />
           </Route>
-          <Route path="/ui">
+          <Route path="/">
             <UI
               address={address}
               userSigner={userSigner}

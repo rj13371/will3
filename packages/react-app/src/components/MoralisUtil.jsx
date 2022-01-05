@@ -12,6 +12,7 @@ export default function MoralisUtil(props) {
   Moralis.start({ serverUrl, appId });
 
   const [tokens, setTokens] = useState([]);
+  const [nativeBalance, setnativeBalance] = useState([]);
 
   console.log(tokens);
 
@@ -19,8 +20,10 @@ export default function MoralisUtil(props) {
     (async () => {
       const options = { chain: `0x4`, address: `${props.userAddress}` };
       const balances = await Moralis.Web3API.account.getTokenBalances(options);
+      const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
 
       setTokens(balances);
+      setnativeBalance(nativeBalance)
     })();
   }, [props.userAddress]);
 
@@ -35,6 +38,11 @@ export default function MoralisUtil(props) {
         </tr>
       </thead>
       <tbody>
+        <tr>
+          <td>Ethereum</td>
+          <td>{ethers.utils.formatEther(nativeBalance.balance)}</td>
+          <td>ETH</td>
+        </tr>
         {tokens.map((token, index) => (
           <tr key={index}>
             <td>{token.name}</td>
