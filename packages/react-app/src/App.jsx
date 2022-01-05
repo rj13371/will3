@@ -13,7 +13,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account,Contract, ContractInteraction,  Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { web3Modal } from "./context";
 import externalContracts from "./contracts/external_contracts";
@@ -454,7 +454,7 @@ function App(props) {
                 and give you a form to interact with it locally
             */}
 
-            <Contract
+            <ContractInteraction
               name="YourContract"
               price={price}
               signer={userSigner}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import Moralis from "moralis";
-import { NETWORK, NETWORKS } from "../constants";
 import { Table } from "react-bootstrap";
 const { ethers } = require("ethers");
 
