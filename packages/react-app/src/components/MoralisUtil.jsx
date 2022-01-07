@@ -40,7 +40,7 @@ export default function MoralisUtil(props) {
       <tbody>
         <tr>
           <td>Ethereum</td>
-          <td>{ethers.utils.formatEther(nativeBalance.balance)}</td>
+          <td>{nativeBalance.balance? ethers.utils.formatEther(nativeBalance.balance): '' }</td>
           <td>ETH</td>
         </tr>
         {tokens.map((token, index) => (
