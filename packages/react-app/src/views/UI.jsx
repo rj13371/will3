@@ -22,7 +22,7 @@ export default function UI({
   return (
     <div>
       <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
-        <img src={titleImage} />
+        <img src={titleImage} style={{ width: "25%" }} />
         <h2 style={{ marginTop: 24 }}>Blockchain is predictable. Life is not.</h2>
         <h5 style={{ marginTop: 48 }}>
           Keep your loved ones and assets safe in your death. Allocate your assets safely and in a trustless fashion.
