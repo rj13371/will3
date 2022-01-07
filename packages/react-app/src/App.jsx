@@ -14,7 +14,7 @@ import { Fragment } from "react";
 import { useMoralis } from "react-moralis";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { Account,Contract, ContractInteraction,  Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account, Contract, ContractInteraction, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { web3Modal } from "./context";
 import externalContracts from "./contracts/external_contracts";
@@ -24,6 +24,7 @@ import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
 import { MoralisUtil } from "./components";
+import DispersementInput from "./components/CreateWill3/DispersementInput";
 
 const { ethers } = require("ethers");
 /*
@@ -367,7 +368,6 @@ function App(props) {
       <Header />
       {networkDisplay}
       <BrowserRouter>
-        
         <Switch>
           <Route exact path="/will3">
             {/*
@@ -375,20 +375,21 @@ function App(props) {
                 this <Contract/> component will automatically parse your ABI
                 and give you a form to interact with it locally
             */}
-<Fragment>
-<div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
-        {address ? <MoralisUtil userAddress={address} /> : ``}
-      </div>
+            <Fragment>
+              <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+                {address ? <MoralisUtil userAddress={address} /> : ``}
+                <DispersementInput />
+              </div>
 
-            <ContractInteraction
-              name="YourContract"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
+              <ContractInteraction
+                name="YourContract"
+                price={price}
+                signer={userSigner}
+                provider={localProvider}
+                address={address}
+                blockExplorer={blockExplorer}
+                contractConfig={contractConfig}
+              />
             </Fragment>
           </Route>
           <Route path="/hints">
