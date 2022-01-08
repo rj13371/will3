@@ -5,7 +5,7 @@ import React from "react";
 
 export default function Header() {
   return (
-    <a href="https://github.com/austintgriffith/scaffold-eth" target="_blank" rel="noopener noreferrer">
+    <a href="./" rel="noopener noreferrer">
       <PageHeader title="🪦 Will3" subTitle="Your last wishes, decentralized." style={{ cursor: "pointer" }} />
     </a>
   );
