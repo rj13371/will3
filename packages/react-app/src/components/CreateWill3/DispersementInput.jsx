@@ -55,7 +55,7 @@ export default function DispersementInput(tokenAddress) {
         )}
       </Form.List>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" onClick={() => console.log("do trigger function")}>
           Submit Transaction
         </Button>
       </Form.Item>
