@@ -382,7 +382,7 @@ function App(props) {
                     userAddress={address}
                     signer={userSigner}
                     provider={localProvider}
-                    address={readContracts.YourContract.address}
+                    address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
                   />
                 ) : (
                   ``

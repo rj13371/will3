@@ -11,7 +11,7 @@ const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
-  const { signer, provider, address } = props;
+  const { userAddress, signer, provider, address } = props;
 
   const { updateTokenList } = useContext(TokenAddressListContext);
 
@@ -24,7 +24,7 @@ export default function MoralisUtil(props) {
 
   useEffect(() => {
     (async () => {
-      const options = { chain: `0x4`, address: `${props.userAddress}` };
+      const options = { chain: `0x4`, address: `${userAddress}` };
       const balances = await Moralis.Web3API.account.getTokenBalances(options);
       const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
 
@@ -33,6 +33,52 @@ export default function MoralisUtil(props) {
       setnativeBalance(nativeBalance);
     })();
   }, [props.userAddress]);
+
+  const erc20Abi = [
+    "function balanceOf(address owner) view returns (uint256)",
+    "function approve(address _spender, uint256 _value) public returns (bool success)",
+    "function allowance(address _owner, address _spender) public view returns (uint256 remaining)",
+  ];
+
+  const makeCall = async (callName, contract, args, metadata = {}) => {
+    if (contract[callName]) {
+      let result;
+      if (args) {
+        result = await contract[callName](...args, metadata);
+      } else {
+        result = await contract[callName]();
+      }
+      return result;
+    }
+    return undefined;
+    console.log("no call of that name!");
+  };
+
+  useEffect(() => {
+    (async () => {
+      for (const token of tokens) {
+        console.log(token);
+
+        const checkWill3TokenAllowance = async () => {
+          try {
+            const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
+
+            const result = await makeCall("allowance", tempContract, [userAddress, address]);
+
+            console.log(result);
+
+            if (result._hex !== "0x00") {
+              token.isApproved = true;
+            }
+            return true;
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        checkWill3TokenAllowance();
+      }
+    })();
+  }, [tokens]);
 
   return (
     <Table striped bordered hover variant="dark">
@@ -56,14 +102,18 @@ export default function MoralisUtil(props) {
             <td>{ethers.utils.formatEther(token.balance)}</td>
             <td>{token.symbol}</td>
             <td>
-              <Button
-                className="connect-wallet-button"
-                onClick={() => {
-                  ApproveToken(signer, provider, address, token);
-                }}
-              >
-                Approve Token
-              </Button>
+              {token.isApproved ? (
+                <Button
+                  className="connect-wallet-button"
+                  onClick={() => {
+                    ApproveToken(signer, provider, address, token);
+                  }}
+                >
+                  Approve Token
+                </Button>
+              ) : (
+                "already approved"
+              )}
             </td>
           </tr>
         ))}
