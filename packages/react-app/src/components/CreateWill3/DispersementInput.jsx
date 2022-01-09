@@ -16,7 +16,7 @@ export default function DispersementInput(tokenAddress) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
-              <Space key={key} style={{ marginBottom: 8 }} align="baseline">
+              <Space key={key} style={{ marginBottom: 0 }} align="baseline">
                 <Form.Item>
                   <InputNumber
                     defaultValue={0}
