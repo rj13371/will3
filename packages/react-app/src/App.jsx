@@ -10,10 +10,11 @@ import {
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { useMoralis } from "react-moralis";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account, Contract, ContractInteraction, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { web3Modal } from "./context";
 import externalContracts from "./contracts/external_contracts";
@@ -22,6 +23,8 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
+import { MoralisUtil } from "./components";
+import DispersementInput from "./components/CreateWill3/DispersementInput";
 
 const { ethers } = require("ethers");
 /*
@@ -365,104 +368,38 @@ function App(props) {
       <Header />
       {networkDisplay}
       <BrowserRouter>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
-          <Menu.Item key="/ui">
-            <Link
-              onClick={() => {
-                setRoute("/ui");
-              }}
-              to="/ui"
-            >
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/will3">
-            <Link
-              onClick={() => {
-                setRoute("/will3");
-              }}
-              to="/will3"
-            >
-              Will3
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/">
-            <Link
-              onClick={() => {
-                setRoute("/");
-              }}
-              to="/"
-            >
-              YourContract
-            </Link>
-          </Menu.Item>
-          {/*
-          <Menu.Item key="/hints">
-            <Link
-              onClick={() => {
-                setRoute("/hints");
-              }}
-              to="/hints"
-            >
-              Hints
-            </Link>
-          </Menu.Item>
-          */}
-          {/*
-          <Menu.Item key="/exampleui">
-            <Link
-              onClick={() => {
-                setRoute("/exampleui");
-              }}
-              to="/exampleui"
-            >
-              ExampleUI
-            </Link>
-          </Menu.Item>
-            */}
-          {/*
-          <Menu.Item key="/mainnetdai">
-            <Link
-              onClick={() => {
-                setRoute("/mainnetdai");
-              }}
-              to="/mainnetdai"
-            >
-              Mainnet DAI
-            </Link>
-          </Menu.Item>
-           */}
-          {/*
-          <Menu.Item key="/subgraph">
-            <Link
-              onClick={() => {
-                setRoute("/subgraph");
-              }}
-              to="/subgraph"
-            >
-              Subgraph
-            </Link>
-          </Menu.Item>
-           */}
-        </Menu>
-
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/will3">
             {/*
                 🎛 this scaffolding is full of commonly used components
                 this <Contract/> component will automatically parse your ABI
                 and give you a form to interact with it locally
             */}
+            <Fragment>
+              <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+                {address ? (
+                  <MoralisUtil
+                    userAddress={address}
+                    signer={userSigner}
+                    provider={localProvider}
+                    address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
+                  />
+                ) : (
+                  ``
+                )}
+                <DispersementInput />
+              </div>
 
-            <Contract
-              name="YourContract"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
+              <ContractInteraction
+                name="YourContract"
+                price={price}
+                signer={userSigner}
+                provider={localProvider}
+                address={address}
+                blockExplorer={blockExplorer}
+                contractConfig={contractConfig}
+              />
+            </Fragment>
           </Route>
           <Route path="/hints">
             <Hints
@@ -472,7 +409,7 @@ function App(props) {
               price={price}
             />
           </Route>
-          <Route path="/ui">
+          <Route path="/">
             <UI
               address={address}
               userSigner={userSigner}
@@ -485,20 +422,6 @@ function App(props) {
               readContracts={readContracts}
               loadWeb3Modal={loadWeb3Modal}
               setRoute={setRoute}
-            />
-          </Route>
-          <Route path="/will3">
-            <Will3
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              loadWeb3Modal={loadWeb3Modal}
             />
           </Route>
           <Route path="/exampleui">

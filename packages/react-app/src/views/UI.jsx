@@ -43,7 +43,7 @@ export default function UI({
                 }}
                 to="/will3"
               >
-                Create / Edit Your Will3
+                Enter App
               </Link>
             </Button>
           )}
