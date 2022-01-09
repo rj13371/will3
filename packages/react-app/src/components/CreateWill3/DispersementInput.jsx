@@ -16,19 +16,18 @@ export default function DispersementInput(tokenAddress) {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
-              <Space key={key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
-                <Form.Item label="Percentage">
-                  <InputNumber />
+              <Space key={key} style={{ marginBottom: 8 }} align="baseline">
+                <Form.Item>
+                  <InputNumber
+                    defaultValue={0}
+                    min={0}
+                    max={100}
+                    formatter={value => `${value}%`}
+                    parser={value => value.replace("%", "")}
+                  />
                 </Form.Item>
-                <Form.Item
-                  {...restField}
-                  name={[name, "first"]}
-                  rules={[{ required: true, message: "Missing Benefactor Address" }]}
-                >
-                  <Input placeholder="Benefactor Address" />
-                </Form.Item>
-
-                <Form.Item label="Select" style={{ minWidth: "200px" }}>
+                of the
+                <Form.Item style={{ minWidth: "100px" }}>
                   <Select>
                     {/* change avax value to its address later */}
                     <Select.Option value={"AVAX_ADDRESS"} key={"AVAX"}>
@@ -41,6 +40,15 @@ export default function DispersementInput(tokenAddress) {
                       </Select.Option>
                     ))}
                   </Select>
+                </Form.Item>
+                asset will be sent to 
+                <Form.Item
+                  {...restField}
+                  name={[name, "first"]}
+                  style={{ minWidth: "300px" }}
+                  rules={[{ required: true, message: "Missing address of beneficiary" }]}
+                >
+                  <Input placeholder="Address of beneficiary" />
                 </Form.Item>
 
                 <MinusCircleOutlined onClick={() => remove(name)} />
