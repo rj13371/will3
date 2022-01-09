@@ -55,26 +55,11 @@ contract YourContract is Ownable {
                 will3Length == assetAddress.length,
             "UNEQUAL AMOUNT OF WILL3 DISPERSEMENTS SENT"
         );
-
-        console.log("trying to create a will3");
-
-        Will3[] memory newWill3Array = new Will3[](will3Length);
-
-        console.log("new Will3 length");
-        console.log(newWill3Array.length);
-
-        console.log("Current Will3 length");
-        console.log(allWill3[msg.sender].length);
-
         uint256 currentWill3Length = allWill3[msg.sender].length;
         for (uint256 i = 0; i < currentWill3Length; i += 1) {
             allWill3[msg.sender].pop();
         }
-        console.log(msg.sender, "removed old Will3");
-        console.log("Current Will3 length");
-        console.log(allWill3[msg.sender].length);
 
-        // uint256 length = allWill3[msg.sender].length;
         for (uint256 j = 0; j < will3Length; j += 1) {
             allWill3[msg.sender].push(
                 Will3(
@@ -90,6 +75,13 @@ contract YourContract is Ownable {
 
     function getBalance() public view returns (uint256) {
         return address(this).balance;
+    }
+
+    function sendDispersement(address deceasedAddress) public {
+        require(msg.sender == msg.sender, "INVALID SENDER");
+        Will3[] memory wills = allWill3[deceasedAddress];
+        console.log(wills.length);
+        // return address(this).balance;
     }
 
     function withdraw() external onlyOwner {
