@@ -387,7 +387,7 @@ function App(props) {
                 ) : (
                   ``
                 )}
-                <DispersementInput />
+                <DispersementInput tx={tx} writeContracts={writeContracts} />
               </div>
 
               <ContractInteraction

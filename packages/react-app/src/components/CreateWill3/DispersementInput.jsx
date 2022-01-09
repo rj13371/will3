@@ -3,7 +3,7 @@ import { Form, Input, Button, Space, Select, InputNumber } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 
-export default function DispersementInput(tokenAddress) {
+export default function DispersementInput({ tx, writeContracts }) {
   const { tokenList } = useContext(TokenAddressListContext);
 
   const onFinish = values => {
@@ -41,7 +41,7 @@ export default function DispersementInput(tokenAddress) {
                     ))}
                   </Select>
                 </Form.Item>
-                asset will be sent to 
+                asset will be sent to
                 <Form.Item
                   {...restField}
                   name={[name, "first"]}
@@ -50,7 +50,6 @@ export default function DispersementInput(tokenAddress) {
                 >
                   <Input placeholder="Address of beneficiary" />
                 </Form.Item>
-
                 <MinusCircleOutlined onClick={() => remove(name)} />
               </Space>
             ))}
@@ -63,7 +62,23 @@ export default function DispersementInput(tokenAddress) {
         )}
       </Form.List>
       <Form.Item>
-        <Button type="primary" htmlType="submit" onClick={() => console.log("do trigger function")}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          onClick={async () => {
+            console.log("create will3");
+            // @ROLAND: example showing how to submit the transaction to the smart contract
+            // grab the values from the individual dispersements and submit them through this transaction
+            tx(
+              writeContracts.YourContract.createWill3( // the name of the contract might change at some point
+                ["0x5b385b7bc79f4ee05790db5a03c5a9b33d420e80"],
+                [100],
+                ["0x5b385b7bc79f4ee05790db5a03c5a9b33d420e80"],
+                { value: 700000 },
+              ),
+            );
+          }}
+        >
           Create Will3
         </Button>
       </Form.Item>
