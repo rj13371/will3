@@ -4,7 +4,7 @@ import { TokenAddressListContext } from "../context/TokenAddressList";
 import Moralis from "moralis";
 import { Table } from "react-bootstrap";
 const { ethers } = require("ethers");
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
+import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch, Tooltip } from "antd";
 import ApproveToken from "./CreateWill3/ApproveToken";
 
 const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
@@ -112,7 +112,9 @@ export default function MoralisUtil(props) {
                   Approve Token
                 </Button>
               ) : (
-                "already approved"
+                <Tooltip placement="top" title="Approved">
+                  ✅
+                </Tooltip>
               )}
             </td>
           </tr>
