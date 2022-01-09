@@ -377,7 +377,16 @@ function App(props) {
             */}
             <Fragment>
               <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
-                {address ? <MoralisUtil userAddress={address} /> : ``}
+                {address ? (
+                  <MoralisUtil
+                    userAddress={address}
+                    signer={userSigner}
+                    provider={localProvider}
+                    address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
+                  />
+                ) : (
+                  ``
+                )}
                 <DispersementInput />
               </div>
 
