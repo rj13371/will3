@@ -4,11 +4,7 @@ import { useContractExistsAtAddress, useContractLoader } from "eth-hooks";
 import Account from "../Account";
 import FunctionForm from "./FunctionForm";
 
-const noContractDisplay = (
-  <div>
-    Loading...{" "}
-  </div>
-);
+const noContractDisplay = <div>Loading... </div>;
 
 const isQueryable = fn => (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length === 0;
 
@@ -52,21 +48,7 @@ export default function ContractInteraction({
         ? contract[contractFuncInfo[0]]
         : contract.connect(signer)[contractFuncInfo[0]];
 
-    if (typeof contractFunc === "function" && contractFuncInfo[0] === "createWill3(address[],uint256[],address[])" ) {
-      // if (isQueryable(contractFuncInfo[1])) {
-      //   // If there are no inputs, just display return value
-      //   return (
-      //     <DisplayVariable
-      //       key={contractFuncInfo[1].name}
-      //       contractFunction={contractFunc}
-      //       functionInfo={contractFuncInfo[1]}
-      //       refreshRequired={refreshRequired}
-      //       triggerRefresh={triggerRefresh}
-      //     />
-      //   );
-      // }
-
-      // If there are inputs, display a form to allow users to provide these
+    if (typeof contractFunc === "function" && contractFuncInfo[0] === "createWill3(address[],uint256[],address[])") {
       return (
         <FunctionForm
           key={"FF" + contractFuncInfo[0]}
@@ -82,10 +64,6 @@ export default function ContractInteraction({
   });
 
   return (
-    <div style={{ margin: "auto", width: "70vw" }}>
-
-        {contractIsDeployed ? contractDisplay : noContractDisplay}
-
-    </div>
+    <div style={{ margin: "auto", width: "70vw" }}>{contractIsDeployed ? contractDisplay : noContractDisplay}</div>
   );
 }

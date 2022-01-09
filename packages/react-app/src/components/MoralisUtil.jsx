@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useMoralis } from "react-moralis";
+import { TokenAddressListContext } from "../context/TokenAddressList";
 import Moralis from "moralis";
 import { Table } from "react-bootstrap";
 const { ethers } = require("ethers");
@@ -9,6 +10,8 @@ const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
+  const { updateTokenList } = useContext(TokenAddressListContext);
+
   Moralis.start({ serverUrl, appId });
 
   const [tokens, setTokens] = useState([]);
@@ -23,7 +26,8 @@ export default function MoralisUtil(props) {
       const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
 
       setTokens(balances);
-      setnativeBalance(nativeBalance)
+      updateTokenList(balances);
+      setnativeBalance(nativeBalance);
     })();
   }, [props.userAddress]);
 
@@ -40,7 +44,7 @@ export default function MoralisUtil(props) {
       <tbody>
         <tr>
           <td>Ethereum</td>
-          <td>{nativeBalance.balance? ethers.utils.formatEther(nativeBalance.balance): '' }</td>
+          <td>{nativeBalance.balance ? ethers.utils.formatEther(nativeBalance.balance) : ""}</td>
           <td>ETH</td>
         </tr>
         {tokens.map((token, index) => (

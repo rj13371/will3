@@ -3,6 +3,7 @@ import React from "react";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import ReactDOM from "react-dom";
 import { MoralisProvider } from "react-moralis";
+import { TokenAddressListProvider } from "./context/TokenAddressList";
 import App from "./App";
 import "./index.css";
 
@@ -26,11 +27,13 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
-    <ApolloProvider client={client}>
-      <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
-        <App subgraphUri={subgraphUri} />
-      </ThemeSwitcherProvider>
-    </ApolloProvider>
+    <TokenAddressListProvider>
+      <ApolloProvider client={client}>
+        <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
+          <App subgraphUri={subgraphUri} />
+        </ThemeSwitcherProvider>
+      </ApolloProvider>
+    </TokenAddressListProvider>
   </MoralisProvider>,
   document.getElementById("root"),
 );
