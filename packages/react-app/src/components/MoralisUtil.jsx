@@ -1,15 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useMoralis } from "react-moralis";
 import { TokenAddressListContext } from "../context/TokenAddressList";
 import Moralis from "moralis";
 import { Table } from "react-bootstrap";
 const { ethers } = require("ethers");
 import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
+import ApproveToken from "./CreateWill3/ApproveToken";
 
 const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
+  const { signer, provider, address } = props;
+
   const { updateTokenList } = useContext(TokenAddressListContext);
 
   Moralis.start({ serverUrl, appId });
@@ -17,7 +20,7 @@ export default function MoralisUtil(props) {
   const [tokens, setTokens] = useState([]);
   const [nativeBalance, setnativeBalance] = useState([]);
 
-  console.log(tokens);
+  console.log(props);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +59,7 @@ export default function MoralisUtil(props) {
               <Button
                 className="connect-wallet-button"
                 onClick={() => {
-                  console.log("approved");
+                  ApproveToken(signer, provider, address, token);
                 }}
               >
                 Approve Token

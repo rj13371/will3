@@ -1,27 +1,14 @@
 import React, { useContext, useState } from "react";
-import { TokenAddressListContext } from "../../context/TokenAddressList";
-import { useContractLoader } from "eth-hooks";
+import { ethers } from "ethers";
 
-export default function ApproveToken(provider, ourContractAddress, tokenAddress) {
-  const contracts = useContractLoader(provider, contractConfig, chainId);
-  let contract;
-  if (!customContract) {
-    contract = contracts ? contracts[name] : "";
-  } else {
-    contract = customContract;
-  }
-
-  const address = contract ? contract.address : "";
+export default function ApproveToken(signer, provider, address, token) {
+  console.log(signer, provider, address, token);
 
   const erc20Abi = [
     "function balanceOf(address owner) view returns (uint256)",
     "function approve(address _spender, uint256 _value) public returns (bool success)",
     "function allowance(address _owner, address _spender) public view returns (uint256 remaining)",
   ];
-
-  const { tokenList } = useContext(TokenAddressListContext);
-
-  const signer = selectedProvider.getSigner();
 
   const makeCall = async (callName, contract, args, metadata = {}) => {
     if (contract[callName]) {
@@ -37,33 +24,20 @@ export default function ApproveToken(provider, ourContractAddress, tokenAddress)
     console.log("no call of that name!");
   };
 
-  const updateRouterAllowance = async newAllowance => {
-    setApproving(true);
+  const updateWill3TokenAllowance = async () => {
     try {
-      const tempContract = new ethers.Contract(tokenAddress, erc20Abi, signer);
-      const result = await makeCall("approve", tempContract, [ROUTER_ADDRESS, newAllowance]);
+      const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
+      const result = await makeCall("approve", tempContract, [
+        address,
+        ethers.utils.hexlify(ethers.utils.parseUnits("11111", token.decimals)),
+      ]); //temp make this 1
       console.log(result);
-      setApproving(false);
       return true;
     } catch (e) {
-      notification.open({
-        message: "Approval unsuccessful",
-        description: `Error: ${e.message}`,
-      });
+      console.log(e);
     }
   };
 
-  const approveTokenForWill3 = async () => {
-    const approvalAmount =
-      exact === "in"
-        ? ethers.utils.hexlify(ethers.utils.parseUnits(amountIn.toString(), tokens[tokenIn].decimals))
-        : amountInMax.raw.toString();
-    console.log(approvalAmount);
-    const approval = updateRouterAllowance(approvalAmount);
-    if (approval) {
-      console.log("approved");
-    }
-  };
-
-  return <div></div>;
+  updateWill3TokenAllowance();
+  return null;
 }
