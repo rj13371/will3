@@ -128,13 +128,14 @@ export default function DispersementInput({ tx, writeContracts, userAddress }) {
                 { value: 700000 },
               ), update => {
               console.log("📡 Transaction Update:", update);
-              if (update && (update.status === "confirmed" || update.status === 1)) {
+              if (update && (update.status === "confirmed" )) {
 
                 const sentEmail = async () => {
 
                   await Moralis.Cloud.run("emailSubscribe", {
                     email: email,
                     address: userAddress,
+                    txHash: update.hash
                   });
 
                 }
