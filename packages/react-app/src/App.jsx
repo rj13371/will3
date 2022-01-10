@@ -390,7 +390,7 @@ function App(props) {
                 <DispersementInput tx={tx} writeContracts={writeContracts} />
               </div>
 
-              <ContractInteraction
+              {/* <ContractInteraction
                 name="YourContract"
                 price={price}
                 signer={userSigner}
@@ -398,7 +398,7 @@ function App(props) {
                 address={address}
                 blockExplorer={blockExplorer}
                 contractConfig={contractConfig}
-              />
+              /> */}
             </Fragment>
           </Route>
           <Route path="/hints">
@@ -409,6 +409,20 @@ function App(props) {
               price={price}
             />
           </Route>
+
+          <Route exact path="/debug">
+
+          <Contract
+            name="YourContract"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+        </Route>
+
           <Route path="/">
             <UI
               address={address}
