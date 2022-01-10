@@ -7,14 +7,13 @@ function callback(key) {
   console.log(key);
 }
 
-const gingeImage = 'assets/ginge.png';
-const rolandImage = 'assets/roland.png';
-const yamboImage = 'assets/yambo.png';
+const gingeImage = "assets/ginge.png";
+const rolandImage = "assets/roland.png";
+const yamboImage = "assets/yambo.png";
 
 const gingeTwitterUrl = "https://www.twitter.com/ginge_eth";
-const rolandTwitterUrl = "https://www.twitter.com/roland_eth";
+const rolandTwitterUrl = "https://twitter.com/rj13371";
 const yamboTwitterUrl = "https://www.twitter.com/yambo_eth";
-
 
 const cardMargin = "0px 25px";
 
@@ -31,7 +30,7 @@ export default function Team() {
         style={{ width: 240, display: "inline-block", margin: cardMargin }}
         cover={<img alt="example" src={rolandImage} />}
       >
-        <Meta title="roland.eth" description="@roland_eth" />
+        <Meta title="Roland" description="@rj13371" />
       </Card>
       <Card
         hoverable
