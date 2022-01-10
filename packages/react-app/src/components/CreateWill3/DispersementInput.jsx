@@ -55,7 +55,7 @@ export default function DispersementInput({ tx, writeContracts }) {
             ))}
             <Form.Item>
               <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                Add Dispersement
+                Add Disbursement
               </Button>
             </Form.Item>
           </>
@@ -68,7 +68,7 @@ export default function DispersementInput({ tx, writeContracts }) {
           onClick={async () => {
             console.log("create will3");
             // @ROLAND: example showing how to submit the transaction to the smart contract
-            // grab the values from the individual dispersements and submit them through this transaction
+            // grab the values from the individual disbursements and submit them through this transaction
             tx(
               writeContracts.YourContract.createWill3( // the name of the contract might change at some point
                 ["0x5b385b7bc79f4ee05790db5a03c5a9b33d420e80"],
