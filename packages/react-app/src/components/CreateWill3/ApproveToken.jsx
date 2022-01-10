@@ -29,8 +29,8 @@ export default function ApproveToken(signer, provider, address, token) {
       const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
       const result = await makeCall("approve", tempContract, [
         address,
-        ethers.utils.hexlify(ethers.utils.parseUnits("11111", token.decimals)),
-      ]); //temp make this 1
+        ethers.utils.hexlify(ethers.utils.parseUnits("1000000000", token.decimals)),
+      ]); 
       console.log(result);
       return true;
     } catch (e) {

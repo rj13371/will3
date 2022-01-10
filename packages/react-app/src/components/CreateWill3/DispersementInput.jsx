@@ -18,15 +18,12 @@ export default function DispersementInput({ tx, writeContracts }) {
     let beneficiary_address = [];
     let percentages = [];
 
-
-
     for(const dispersements of values.dispersements){
-      console.log(dispersements)
+  
       token_address.push(dispersements.token_address)
       beneficiary_address.push(dispersements.beneficiary_address)
       percentages.push(dispersements.percentage)
     }
-
 
     setDisepersementFormTokenAddresses([...token_address])
 
@@ -94,9 +91,6 @@ export default function DispersementInput({ tx, writeContracts }) {
           onClick={ () => {
             console.log("create will3");
             console.log(disepersementFormTokenAddresses,disepersementFormPercentages, disepersementFormBeneficiaryAddresses )
-
-            // @ROLAND: example showing how to submit the transaction to the smart contract
-            // grab the values from the individual disbursements and submit them through this transaction
 
             tx(
               writeContracts.YourContract.createWill3( 
