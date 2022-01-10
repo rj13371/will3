@@ -42,7 +42,7 @@ export default function UI({
                 }}
                 to="/will3"
               >
-                <h5 style={{ color: "black", margin: "auto" }}>Enter App</h5>
+                <h6 style={{ color: "black", margin: "auto" }}>Enter App</h6>
               </Link>
             </Button>
           )}
