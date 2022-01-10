@@ -6,18 +6,44 @@ import { TokenAddressListContext } from "../../context/TokenAddressList";
 export default function DispersementInput({ tx, writeContracts }) {
   const { tokenList } = useContext(TokenAddressListContext);
 
-  const onFinish = values => {
-    console.log("Received values of form:", values);
+  const [disepersementFormTokenAddresses, setDisepersementFormTokenAddresses] = useState([]);
+
+  const [disepersementFormBeneficiaryAddresses, setDisepersementFormBeneficiaryAddresses] = useState([]);
+
+  const [disepersementFormPercentages, setDisepersementFormPercentages] = useState([]);
+
+
+  const onFinish = values => { 
+    let token_address = [];
+    let beneficiary_address = [];
+    let percentages = [];
+
+
+
+    for(const dispersements of values.dispersements){
+      console.log(dispersements)
+      token_address.push(dispersements.token_address)
+      beneficiary_address.push(dispersements.beneficiary_address)
+      percentages.push(dispersements.percentage)
+    }
+
+
+    setDisepersementFormTokenAddresses([...token_address])
+
+    setDisepersementFormBeneficiaryAddresses([...beneficiary_address])
+
+    setDisepersementFormPercentages([...percentages])
+
   };
 
   return (
     <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-      <Form.List name="users">
+      <Form.List name="dispersements">
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
               <Space key={key} style={{ marginBottom: 0 }} align="baseline">
-                <Form.Item>
+                <Form.Item name={[name, "percentage"]}>
                   <InputNumber
                     defaultValue={0}
                     min={0}
@@ -27,7 +53,7 @@ export default function DispersementInput({ tx, writeContracts }) {
                   />
                 </Form.Item>
                 of the
-                <Form.Item style={{ minWidth: "100px" }}>
+                <Form.Item name={[name, "token_address"]} style={{ minWidth: "100px" }}>
                   <Select>
                     {/* change avax value to its address later */}
                     <Select.Option value={"AVAX_ADDRESS"} key={"AVAX"}>
@@ -44,7 +70,7 @@ export default function DispersementInput({ tx, writeContracts }) {
                 asset will be sent to
                 <Form.Item
                   {...restField}
-                  name={[name, "first"]}
+                  name={[name, "beneficiary_address"]}
                   style={{ minWidth: "300px" }}
                   rules={[{ required: true, message: "Missing address of beneficiary" }]}
                 >
@@ -65,15 +91,22 @@ export default function DispersementInput({ tx, writeContracts }) {
         <Button
           type="primary"
           htmlType="submit"
-          onClick={async () => {
+          onClick={ () => {
             console.log("create will3");
+<<<<<<< HEAD
+
+            console.log(disepersementFormTokenAddresses,disepersementFormPercentages, disepersementFormBeneficiaryAddresses )
+
+
+=======
             // @ROLAND: example showing how to submit the transaction to the smart contract
             // grab the values from the individual disbursements and submit them through this transaction
+>>>>>>> 5a1b530c53ac18af66767a9b7997aeefdaf7bdd6
             tx(
-              writeContracts.YourContract.createWill3( // the name of the contract might change at some point
-                ["0x5b385b7bc79f4ee05790db5a03c5a9b33d420e80"],
-                [100],
-                ["0x5b385b7bc79f4ee05790db5a03c5a9b33d420e80"],
+              writeContracts.YourContract.createWill3( 
+                [...disepersementFormTokenAddresses],
+                [...disepersementFormPercentages],
+                [...disepersementFormBeneficiaryAddresses],
                 { value: 700000 },
               ),
             );
