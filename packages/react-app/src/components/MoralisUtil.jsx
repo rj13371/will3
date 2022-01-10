@@ -65,8 +65,6 @@ export default function MoralisUtil(props) {
 
             const result = await makeCall("allowance", tempContract, [userAddress, address]);
 
-            console.log(result);
-
             if (result._hex !== "0x00") {
               token.isApproved = true;
             }
@@ -102,9 +100,9 @@ export default function MoralisUtil(props) {
             <td>{ethers.utils.formatEther(token.balance)}</td>
             <td>{token.symbol}</td>
             <td>
-              {token.isApproved ? (
+              {!token.isApproved ? (
                 <Button
-                  className="connect-wallet-button"
+                  type="primary"
                   onClick={() => {
                     ApproveToken(signer, provider, address, token);
                   }}
