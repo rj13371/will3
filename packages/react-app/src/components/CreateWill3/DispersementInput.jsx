@@ -38,10 +38,7 @@ export default function DispersementInput({ tx, writeContracts, userAddress }) {
 
     if(values.emailSubscribe){
 
-     const sentEmail = await Moralis.Cloud.run("emailSubscribe", {
-      email: values.email,
-      address: userAddress,
-    });
+      setEmail(values.email)
 
     }
     
@@ -123,17 +120,35 @@ export default function DispersementInput({ tx, writeContracts, userAddress }) {
           onClick={ () => {
             console.log("create will3");
 
-            tx(
+            const result = tx(
               writeContracts.YourContract.createWill3( 
                 [...disepersementFormTokenAddresses],
                 [...disepersementFormPercentages],
                 [...disepersementFormBeneficiaryAddresses],
                 { value: 700000 },
-              ),
-            );
+              ), update => {
+              console.log("📡 Transaction Update:", update);
+              if (update && (update.status === "confirmed" || update.status === 1)) {
 
+                const sentEmail = async () => {
+
+                  await Moralis.Cloud.run("emailSubscribe", {
+                    email: email,
+                    address: userAddress,
+                  });
+
+                }
+
+                sentEmail();
+
+                
+              }
+            });
 
           }}
+
+
+
         >
           Create Will3
         </Button>
