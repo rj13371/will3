@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Form, Input, Button, Space, Select, InputNumber } from "antd";
+import { Form, Input, Button, Space, Select, InputNumber, Checkbox } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
+import Moralis from 'moralis'
 
-export default function DispersementInput({ tx, writeContracts }) {
+export default function DispersementInput({ tx, writeContracts, userAddress }) {
   const { tokenList } = useContext(TokenAddressListContext);
 
   const [disepersementFormTokenAddresses, setDisepersementFormTokenAddresses] = useState([]);
@@ -12,11 +13,15 @@ export default function DispersementInput({ tx, writeContracts }) {
 
   const [disepersementFormPercentages, setDisepersementFormPercentages] = useState([]);
 
+  const [email, setEmail] = useState();
+ 
 
-  const onFinish = values => { 
+  const onFinish = async values => { 
     let token_address = [];
     let beneficiary_address = [];
     let percentages = [];
+
+    console.log(values)
 
     for(const dispersements of values.dispersements){
   
@@ -31,7 +36,21 @@ export default function DispersementInput({ tx, writeContracts }) {
 
     setDisepersementFormPercentages([...percentages])
 
+    if(values.emailSubscribe){
+
+     const sentEmail = await Moralis.Cloud.run("emailSubscribe", {
+      email: values.email,
+      address: userAddress,
+    });
+
+    }
+    
+
   };
+
+  
+
+  
 
   return (
     <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
@@ -83,14 +102,26 @@ export default function DispersementInput({ tx, writeContracts }) {
             </Form.Item>
           </>
         )}
+
       </Form.List>
+
+<Form.Item
+        label="Email"
+        name="email"
+      >
+        <Input />
+      </Form.Item>
+
+<Form.Item name="emailSubscribe" valuePropName="checked" >
+        <Checkbox>Subscribe your email</Checkbox>
+      </Form.Item>
+
       <Form.Item>
         <Button
           type="primary"
           htmlType="submit"
           onClick={ () => {
             console.log("create will3");
-            console.log(disepersementFormTokenAddresses,disepersementFormPercentages, disepersementFormBeneficiaryAddresses )
 
             tx(
               writeContracts.YourContract.createWill3( 
@@ -100,6 +131,8 @@ export default function DispersementInput({ tx, writeContracts }) {
                 { value: 700000 },
               ),
             );
+
+
           }}
         >
           Create Will3
