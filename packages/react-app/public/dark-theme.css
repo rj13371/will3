@@ -690,7 +690,7 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-variant: tabular-nums;
   line-height: 1.5715;
-  background-color: #212121;
+  background-color: #0F0E0E;
   font-feature-settings: "tnum";
 }
 [tabindex="-1"]:focus {
@@ -3970,7 +3970,7 @@ a.ant-btn-sm {
   list-style: none;
   font-feature-settings: "tnum";
   position: relative;
-  background: #212121;
+  background: #0F0E0E;
   border-radius: 4px;
 }
 .ant-card-rtl {
@@ -4945,7 +4945,7 @@ a.ant-btn-sm {
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: "tnum";
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgb(15, 14, 14);
   border: 1px solid #6f6c6c;
   border-bottom: 0;
   border-radius: 4px;
@@ -5030,7 +5030,7 @@ a.ant-btn-sm {
 .ant-collapse-content {
   overflow: hidden;
   color: rgba(255, 255, 255, 0.85);
-  background-color: #212121;
+  background-color: rgb(15, 14, 14);
   border-top: 1px solid #6f6c6c;
 }
 .ant-collapse-content > .ant-collapse-content-box {
@@ -5043,7 +5043,7 @@ a.ant-btn-sm {
   border-radius: 0 0 4px 4px;
 }
 .ant-collapse-borderless {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgb(15,14,14);
   border: 0;
 }
 .ant-collapse-borderless > .ant-collapse-item {

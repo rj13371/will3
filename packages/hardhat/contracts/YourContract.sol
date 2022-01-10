@@ -77,7 +77,7 @@ contract YourContract is Ownable {
         return address(this).balance;
     }
 
-    function sendDispersement(address deceasedAddress) public {
+    function sendDisbursements(address deceasedAddress) public {
         require(msg.sender == msg.sender, "INVALID SENDER");
         Will3[] memory wills = allWill3[deceasedAddress];
         console.log(wills.length);

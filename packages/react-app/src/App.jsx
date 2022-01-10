@@ -411,17 +411,16 @@ function App(props) {
           </Route>
 
           <Route exact path="/debug">
-
-          <Contract
-            name="YourContract"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
-        </Route>
+            <Contract
+              name="YourContract"
+              price={price}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+              contractConfig={contractConfig}
+            />
+          </Route>
 
           <Route path="/">
             <UI
@@ -483,8 +482,6 @@ function App(props) {
           </Route>
         </Switch>
       </BrowserRouter>
-
-      <ThemeSwitch />
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
       <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
