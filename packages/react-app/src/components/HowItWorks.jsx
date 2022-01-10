@@ -16,7 +16,7 @@ export default function HowItWorks() {
       <Collapse style={{ textAlign: "left" }} defaultActiveKey={["1"]} onChange={callback} accordion>
         <Panel header="What is Will3?" key="1">
           <p>
-            Will3 acts as a trustless executor sending predetermined assets to your designated benefactors upon the
+            Will3 acts as a trustless executor. It disburses predetermined assets to your designated benefactors in the
             event of your death.
           </p>
         </Panel>
