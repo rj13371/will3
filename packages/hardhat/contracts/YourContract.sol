@@ -19,7 +19,9 @@ contract YourContract is Ownable {
         address receivingAddress;
     }
 
-    mapping(address => Will3[]) public allWill3;
+    mapping(address => Will3[]) public addressToWill3;
+    mapping(address => uint256) public addressToDisburseBlock;
+    uint256 BLOCK_INCREASE = 3100000;
 
     constructor() {
         // what should we do on deploy?
@@ -36,11 +38,11 @@ contract YourContract is Ownable {
         view
         returns (Will3[] memory myWill3)
     {
-        uint256 length = allWill3[will3Address].length;
+        uint256 length = addressToWill3[will3Address].length;
         console.log("length");
         console.log(length);
 
-        return allWill3[will3Address];
+        return addressToWill3[will3Address];
     }
 
     function createWill3(
@@ -55,13 +57,13 @@ contract YourContract is Ownable {
                 will3Length == assetAddress.length,
             "UNEQUAL AMOUNT OF WILL3 DISPERSEMENTS SENT"
         );
-        uint256 currentWill3Length = allWill3[msg.sender].length;
+        uint256 currentWill3Length = addressToWill3[msg.sender].length;
         for (uint256 i = 0; i < currentWill3Length; i += 1) {
-            allWill3[msg.sender].pop();
+            addressToWill3[msg.sender].pop();
         }
 
         for (uint256 j = 0; j < will3Length; j += 1) {
-            allWill3[msg.sender].push(
+            addressToWill3[msg.sender].push(
                 Will3(
                     assetAddress[j],
                     percentageOfHoldings[j],
@@ -69,6 +71,7 @@ contract YourContract is Ownable {
                 )
             );
         }
+        addressToDisburseBlock[msg.sender] = block.number + BLOCK_INCREASE;
         console.log(msg.sender, "created a new will3");
         emit CreateWill3(msg.sender);
     }
@@ -77,9 +80,21 @@ contract YourContract is Ownable {
         return address(this).balance;
     }
 
+    function setBlockIncrease(uint256 newBlockIncrease) public onlyOwner {
+        BLOCK_INCREASE = newBlockIncrease;
+    }
+
     function sendDisbursements(address deceasedAddress) public {
-        require(msg.sender == msg.sender, "INVALID SENDER");
-        Will3[] memory wills = allWill3[deceasedAddress];
+        // require(msg.sender == msg.sender, "INVALID SENDER");
+        Will3[] memory wills = addressToWill3[deceasedAddress];
+        // mapping(address => uint256) memory assetAddressToOriginalAmount;
+        // console.log()
+        for (uint i=0; i<wills.length; i++) {
+            console.log(wills[i].assetAddress);
+            console.log(wills[i].percentageOfHoldings);
+            console.log(wills[i].receivingAddress);
+        }
+        console.log("length of wills");
         console.log(wills.length);
         // return address(this).balance;
     }
