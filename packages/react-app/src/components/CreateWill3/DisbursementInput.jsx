@@ -1,57 +1,81 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Form, Input, Button, Space, Select, InputNumber, Checkbox } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
-import Moralis from 'moralis'
+import Moralis from "moralis";
 
-export default function DispersementInput({ tx, writeContracts, userAddress }) {
+export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   const { tokenList } = useContext(TokenAddressListContext);
 
-  const [disepersementFormTokenAddresses, setDisepersementFormTokenAddresses] = useState([]);
+  const [disbursementFormTokenAddresses, setDisbursementFormTokenAddresses] = useState([]);
 
-  const [disepersementFormBeneficiaryAddresses, setDisepersementFormBeneficiaryAddresses] = useState([]);
+  const [disbursementFormBeneficiaryAddresses, setDisbursementFormBeneficiaryAddresses] = useState([]);
 
-  const [disepersementFormPercentages, setDisepersementFormPercentages] = useState([]);
+  const [disbursementFormPercentages, setDisbursementFormPercentages] = useState([]);
 
-  const [email, setEmail] = useState();
- 
+  const emailRef = useRef(null);
 
-  const onFinish = async values => { 
+  const onFinish = values => {
+    if (values.email) {
+      emailRef.current = [values.email];
+    } else {
+      emailRef.current = null;
+    }
+
     let token_address = [];
     let beneficiary_address = [];
     let percentages = [];
 
-    console.log(values)
+    console.log(values);
 
-    for(const dispersements of values.dispersements){
-  
-      token_address.push(dispersements.token_address)
-      beneficiary_address.push(dispersements.beneficiary_address)
-      percentages.push(dispersements.percentage)
+    for (const disbursements of values.disbursements) {
+      token_address.push(disbursements.token_address);
+      beneficiary_address.push(disbursements.beneficiary_address);
+      percentages.push(disbursements.percentage);
     }
 
-    setDisepersementFormTokenAddresses([...token_address])
+    setDisbursementFormTokenAddresses([...token_address]);
 
-    setDisepersementFormBeneficiaryAddresses([...beneficiary_address])
+    setDisbursementFormBeneficiaryAddresses([...beneficiary_address]);
 
-    setDisepersementFormPercentages([...percentages])
-
-    if(values.emailSubscribe){
-
-      setEmail(values.email)
-
-    }
-    
-
+    setDisbursementFormPercentages([...percentages]);
   };
 
-  
+  const createWill = async () => {
+    tx(
+      writeContracts.YourContract.createWill3(
+        [...disbursementFormTokenAddresses],
+        [...disbursementFormPercentages],
+        [...disbursementFormBeneficiaryAddresses],
+        { value: 700000 },
+      ),
+      update => {
+        console.log("📡 Transaction Update:", update, emailRef.current);
+        if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
+          console.log("Run Moralis Cloud Function");
 
-  
+          const sendEmail = async () => {
+            console.log("Sending Email...");
+            try {
+              await Moralis.Cloud.run("emailSubscribe", {
+                email: emailRef.current,
+                address: userAddress,
+                txHash: update.hash,
+              });
+            } catch (e) {
+              console.log(e);
+            }
+          };
+
+          sendEmail();
+        }
+      },
+    );
+  };
 
   return (
     <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-      <Form.List name="dispersements">
+      <Form.List name="disbursements">
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
@@ -99,57 +123,20 @@ export default function DispersementInput({ tx, writeContracts, userAddress }) {
             </Form.Item>
           </>
         )}
-
       </Form.List>
 
-<Form.Item
-        label="Email"
-        name="email"
-      >
+      <Form.Item label="Email (optional)" name="email" style={{ maxWidth: 300 }}>
         <Input />
-      </Form.Item>
-
-<Form.Item name="emailSubscribe" valuePropName="checked" >
-        <Checkbox>Subscribe your email</Checkbox>
       </Form.Item>
 
       <Form.Item>
         <Button
           type="primary"
           htmlType="submit"
-          onClick={ () => {
+          onClick={() => {
             console.log("create will3");
-
-            const result = tx(
-              writeContracts.YourContract.createWill3( 
-                [...disepersementFormTokenAddresses],
-                [...disepersementFormPercentages],
-                [...disepersementFormBeneficiaryAddresses],
-                { value: 700000 },
-              ), update => {
-              console.log("📡 Transaction Update:", update);
-              if (update && (update.status === "confirmed" )) {
-
-                const sentEmail = async () => {
-
-                  await Moralis.Cloud.run("emailSubscribe", {
-                    email: email,
-                    address: userAddress,
-                    txHash: update.hash
-                  });
-
-                }
-
-                sentEmail();
-
-                
-              }
-            });
-
+            createWill();
           }}
-
-
-
         >
           Create Will3
         </Button>

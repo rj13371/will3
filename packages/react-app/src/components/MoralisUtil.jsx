@@ -57,7 +57,7 @@ export default function MoralisUtil(props) {
   useEffect(() => {
     (async () => {
       for (const token of tokens) {
-        console.log(token);
+
 
         const checkWill3TokenAllowance = async () => {
           try {

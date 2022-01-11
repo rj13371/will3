@@ -24,7 +24,7 @@ import { Transactor } from "./helpers";
 // import Hints from "./Hints";
 import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
 import { MoralisUtil } from "./components";
-import DispersementInput from "./components/CreateWill3/DispersementInput";
+import DisbursementInput from "./components/CreateWill3/DisbursementInput";
 
 const { ethers } = require("ethers");
 /*
@@ -387,7 +387,7 @@ function App(props) {
                 ) : (
                   ``
                 )}
-                <DispersementInput tx={tx} writeContracts={writeContracts} userAddress={address} />
+                <DisbursementInput tx={tx} writeContracts={writeContracts} userAddress={address} />
               </div>
 
               {/* <ContractInteraction
