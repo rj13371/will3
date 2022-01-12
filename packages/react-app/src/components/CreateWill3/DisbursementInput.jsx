@@ -147,7 +147,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
         )}
       </Form.List>
 
-      <Form.Item label="Subscribe Email (optional)" name="email" style={{ maxWidth: 300 }}>
+      <Form.Item label="Subscribe Email (optional)" name="email" style={{ maxWidth: 450 }}>
         <Input />
       </Form.Item>
 
