@@ -5,6 +5,8 @@ import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
 
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
+  const UserEmail = Moralis.Object.extend("UserEmail");
+
   const { tokenList } = useContext(TokenAddressListContext);
 
   const [disbursementFormTokenAddresses, setDisbursementFormTokenAddresses] = useState([]);
@@ -15,30 +17,51 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
   const emailRef = useRef(null);
 
-  const onFinish = values => {
-    if (values.email) {
-      emailRef.current = [values.email];
+  async function getEmailFromMoralis() {
+    const query = new Moralis.Query(UserEmail);
+    console.log(userAddress);
+
+    query.equalTo("userAddress", userAddress);
+
+    const results = await query.find();
+    console.log(results[0]);
+    if (results.length == 0) {
+      console.log("no email");
     } else {
-      emailRef.current = null;
+      const foundUser = results[0];
+      const foundEmail = foundUser.get("userEmail");
+      console.log(results[0], foundEmail);
+      emailRef.current = foundEmail;
     }
+  }
 
-    let token_address = [];
-    let beneficiary_address = [];
-    let percentages = [];
+  const onFinish = async values => {
+    try {
+      if (values.email) {
+        emailRef.current = values.email;
+      } else {
+        await getEmailFromMoralis();
+      }
 
-    console.log(values);
+      let token_address = [];
+      let beneficiary_address = [];
+      let percentages = [];
 
-    for (const disbursements of values.disbursements) {
-      token_address.push(disbursements.token_address);
-      beneficiary_address.push(disbursements.beneficiary_address);
-      percentages.push(disbursements.percentage);
+      for (const disbursements of values.disbursements) {
+        token_address.push(disbursements.token_address);
+        beneficiary_address.push(disbursements.beneficiary_address);
+        percentages.push(disbursements.percentage);
+      }
+
+      setDisbursementFormTokenAddresses([...token_address]);
+
+      setDisbursementFormBeneficiaryAddresses([...beneficiary_address]);
+
+      setDisbursementFormPercentages([...percentages]);
+    } catch (e) {
+      //temp error handle
+      window.alert(e);
     }
-
-    setDisbursementFormTokenAddresses([...token_address]);
-
-    setDisbursementFormBeneficiaryAddresses([...beneficiary_address]);
-
-    setDisbursementFormPercentages([...percentages]);
   };
 
   const createWill = async () => {
@@ -52,10 +75,9 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       update => {
         console.log("📡 Transaction Update:", update, emailRef.current);
         if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
-          console.log("Run Moralis Cloud Function");
+          console.log(`Run Moralis Cloud Function with ${emailRef.current}`);
 
           const sendEmail = async () => {
-            console.log("Sending Email...");
             try {
               await Moralis.Cloud.run("emailSubscribe", {
                 email: emailRef.current,
@@ -125,7 +147,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
         )}
       </Form.List>
 
-      <Form.Item label="Email (optional)" name="email" style={{ maxWidth: 300 }}>
+      <Form.Item label="Subscribe Email (optional)" name="email" style={{ maxWidth: 300 }}>
         <Input />
       </Form.Item>
 
