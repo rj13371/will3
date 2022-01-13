@@ -57,8 +57,6 @@ export default function MoralisUtil(props) {
   useEffect(() => {
     (async () => {
       for (const token of tokens) {
-
-
         const checkWill3TokenAllowance = async () => {
           try {
             const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);

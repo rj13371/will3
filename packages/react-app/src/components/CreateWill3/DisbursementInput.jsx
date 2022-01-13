@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Form, Input, Button, Space, Select, InputNumber, Checkbox } from "antd";
+import React, { useContext, useState, useRef } from "react";
+import { Form, Input, Button, Space, Select, InputNumber, Modal, Divider, Row, Image } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
+import TransactionModal from "../TransactionModal/TransactionModal";
 
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   const UserEmail = Moralis.Object.extend("UserEmail");
@@ -15,7 +16,38 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
   const [disbursementFormPercentages, setDisbursementFormPercentages] = useState([]);
 
+  const firstRender = useRef(true);
+  const [swapModalVisible, setSwapModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalDescription, setModalDescription] = useState("");
+
+  const showSwapModal = () => {
+    setSwapModalVisible(true);
+  };
+
+  const handleSwapModalClose = () => {
+    firstRender.current = true;
+    setSwapModalVisible(false);
+  };
+
   const emailRef = useRef(null);
+
+  const TransactionModal = () => {
+    return (
+      <Modal title={modalTitle} visible={swapModalVisible} onOk={handleSwapModalClose} onCancel={handleSwapModalClose}>
+        <Space size={12}>
+          <Image
+            width={200}
+            src={`${process.env.PUBLIC_URL}/scaffold-eth.png`}
+            placeholder={<Image preview={false} src={`${process.env.PUBLIC_URL}/scaffold-eth.png`} width={200} />}
+          />
+        </Space>
+
+        <Divider />
+        <Row>{modalDescription}</Row>
+      </Modal>
+    );
+  };
 
   async function getEmailFromMoralis() {
     const query = new Moralis.Query(UserEmail);
@@ -74,6 +106,10 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       ),
       update => {
         console.log("📡 Transaction Update:", update, emailRef.current);
+        if (update && (update.status === "confirmed" || update.status === 1) && firstRender.current) {
+          showSwapModal();
+          firstRender.current = false;
+        }
         if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
           console.log(`Run Moralis Cloud Function with ${emailRef.current}`);
 
@@ -96,73 +132,76 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   };
 
   return (
-    <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-      <Form.List name="disbursements">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map(({ key, name, ...restField }) => (
-              <Space key={key} style={{ marginBottom: 0 }} align="baseline">
-                <Form.Item name={[name, "percentage"]}>
-                  <InputNumber
-                    defaultValue={0}
-                    min={0}
-                    max={100}
-                    formatter={value => `${value}%`}
-                    parser={value => value.replace("%", "")}
-                  />
-                </Form.Item>
-                of the
-                <Form.Item name={[name, "token_address"]} style={{ minWidth: "100px" }}>
-                  <Select>
-                    {/* change avax value to its address later */}
-                    <Select.Option value={"AVAX_ADDRESS"} key={"AVAX"}>
-                      {"AVAX"}
-                    </Select.Option>
-
-                    {tokenList.map(token => (
-                      <Select.Option value={token.token_address} key={token.symbol}>
-                        {token.symbol}
+    <>
+      <TransactionModal />
+      <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
+        <Form.List name="disbursements">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Space key={key} style={{ marginBottom: 0 }} align="baseline">
+                  <Form.Item name={[name, "percentage"]}>
+                    <InputNumber
+                      defaultValue={0}
+                      min={0}
+                      max={100}
+                      formatter={value => `${value}%`}
+                      parser={value => value.replace("%", "")}
+                    />
+                  </Form.Item>
+                  of the
+                  <Form.Item name={[name, "token_address"]} style={{ minWidth: "100px" }}>
+                    <Select>
+                      {/* change avax value to its address later */}
+                      <Select.Option value={"AVAX_ADDRESS"} key={"AVAX"}>
+                        {"AVAX"}
                       </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                asset will be sent to
-                <Form.Item
-                  {...restField}
-                  name={[name, "beneficiary_address"]}
-                  style={{ minWidth: "300px" }}
-                  rules={[{ required: true, message: "Missing address of beneficiary" }]}
-                >
-                  <Input placeholder="Address of beneficiary" />
-                </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(name)} />
-              </Space>
-            ))}
-            <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                Add Disbursement
-              </Button>
-            </Form.Item>
-          </>
-        )}
-      </Form.List>
 
-      <Form.Item label="Subscribe Email (optional)" name="email" style={{ maxWidth: 450 }}>
-        <Input />
-      </Form.Item>
+                      {tokenList.map(token => (
+                        <Select.Option value={token.token_address} key={token.symbol}>
+                          {token.symbol}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  asset will be sent to
+                  <Form.Item
+                    {...restField}
+                    name={[name, "beneficiary_address"]}
+                    style={{ minWidth: "300px" }}
+                    rules={[{ required: true, message: "Missing address of beneficiary" }]}
+                  >
+                    <Input placeholder="Address of beneficiary" />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  Add Disbursement
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
 
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          onClick={() => {
-            console.log("create will3");
-            createWill();
-          }}
-        >
-          Create Will3
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item label="Subscribe Email (optional)" name="email" style={{ maxWidth: 450 }}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => {
+              console.log("create will3");
+              createWill();
+            }}
+          >
+            Create Will3
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 }
