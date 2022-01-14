@@ -11,7 +11,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract YourContract is Ownable {
     event CreateWill3(address sender);
-    uint256 public will3CreationCost = 700000; // normally 50000000000000000
+    event UpdateWill3(address sender);
+    event UpdateDisbursementBlock(address sender);
+
+    uint256 public will3CreationCost = 700000;
+    uint256 public will3UpdateCost = 700; 
 
     struct Will3 {
         address assetAddress;
@@ -22,6 +26,8 @@ contract YourContract is Ownable {
     mapping(address => Will3[]) public addressToWill3;
     mapping(address => uint256) public addressToDisburseBlock;
     uint256 BLOCK_INCREASE = 3100000;
+    uint256 MAX_BLOCK_INCREASE = 10000000;
+
 
     constructor() {
         // what should we do on deploy?
@@ -31,6 +37,11 @@ contract YourContract is Ownable {
     function setWill3CreationCost(uint256 newCreationCost) public onlyOwner {
         will3CreationCost = newCreationCost;
         console.log(msg.sender, "set generation cost to", newCreationCost);
+    }
+
+    function setWill3UpdateCost(uint256 newUpdateCost) public onlyOwner {
+        will3UpdateCost = newUpdateCost;
+        console.log(msg.sender, "set update cost to", newUpdateCost);
     }
 
     function getWill3(address will3Address)
@@ -84,8 +95,18 @@ contract YourContract is Ownable {
         BLOCK_INCREASE = newBlockIncrease;
     }
 
+    function setMaxBlockIncrease(uint256 newMaxBlockIncrease) public onlyOwner {
+        MAX_BLOCK_INCREASE = newMaxBlockIncrease;
+    }
+
+    function increaseDisbursementBlock(uint256 blockIncrease) public payable {
+        require(blockIncrease <= MAX_BLOCK_INCREASE, "BLOCK INCREASE EXCEEDS MAX ALLOWED");
+        addressToDisburseBlock[msg.sender] += blockIncrease;
+        emit UpdateDisbursementBlock(msg.sender);
+    }
+
     function sendDisbursements(address deceasedAddress) public {
-        // require(msg.sender == msg.sender, "INVALID SENDER");
+        require(addressToDisburseBlock[deceasedAddress] >= block.number, "DISBURSEMENT BLOCK HAS NOT EXPIRED YET");
         Will3[] memory wills = addressToWill3[deceasedAddress];
         // mapping(address => uint256) memory assetAddressToOriginalAmount;
         // console.log()
