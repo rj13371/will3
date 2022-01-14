@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Menu, Row } from "antd";
+import { Alert, Button, Col, Menu, Row, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -25,6 +25,7 @@ import { Transactor } from "./helpers";
 import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
 import { MoralisUtil } from "./components";
 import DisbursementInput from "./components/CreateWill3/DisbursementInput";
+import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
 
 const { ethers } = require("ethers");
 /*
@@ -377,16 +378,47 @@ function App(props) {
             */}
             <Fragment>
               <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+                <div>
+                  <h1>Create Will3</h1>
+                  <p style={{ width: "70%", minWidth: "400px", margin: "auto auto 24px" }}>
+                    Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
+                    your beneficiaries if your Will3 is executed and are stored in the Will3 smart contract. This future
+                    block number can be set when creating your Will3.
+                  </p>
+                </div>
                 {address ? (
-                  <MoralisUtil
-                    userAddress={address}
-                    signer={userSigner}
-                    provider={localProvider}
-                    address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
-                  />
+                  <>
+                    <h4 style={{ textAlign: "left" }}>
+                      Your Assets{" "}
+                      <Tooltip
+                        placement="top"
+                        title="Placeholder"
+                      >
+                        <InfoCircleOutlined />
+                      </Tooltip>
+                    </h4>
+                    <MoralisUtil
+                      userAddress={address}
+                      signer={userSigner}
+                      provider={localProvider}
+                      address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
+                    />
+                  </>
                 ) : (
                   ``
                 )}
+                <div style={{ textAlign: "left" }}>
+                  <h4>
+                    Disbursements{" "}
+                    <Tooltip
+                      placement="top"
+                      title="Assets are locked in your Will3 until its disbursement block has expired. Enable reminder emails below to stay informed."
+                    >
+                      <InfoCircleOutlined />
+                    </Tooltip>
+                  </h4>
+                </div>
+
                 <DisbursementInput tx={tx} writeContracts={writeContracts} userAddress={address} />
               </div>
 

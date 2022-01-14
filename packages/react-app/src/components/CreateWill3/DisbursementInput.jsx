@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Form, Input, Button, Space, Select, InputNumber, Checkbox } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Space, Select, InputNumber, Checkbox, Tooltip } from "antd";
+import { MinusCircleOutlined, PlusOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
 
@@ -148,7 +148,13 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.List>
 
       <Form.Item name="email" style={{ maxWidth: 300, margin: "auto auto 24px" }}>
-        <p style={{ textAlign: "left", marginBottom: "4px" }}>Reminder email (optional)</p><Input />
+        <p style={{ textAlign: "left", marginBottom: "4px" }}>
+          Reminder email (optional){" "}
+          <Tooltip placement="top" title="Placeholder">
+            <InfoCircleOutlined />
+          </Tooltip>
+        </p>
+        <Input />
       </Form.Item>
 
       <Form.Item>

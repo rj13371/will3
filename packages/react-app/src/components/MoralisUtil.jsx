@@ -57,8 +57,6 @@ export default function MoralisUtil(props) {
   useEffect(() => {
     (async () => {
       for (const token of tokens) {
-
-
         const checkWill3TokenAllowance = async () => {
           try {
             const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
@@ -83,22 +81,23 @@ export default function MoralisUtil(props) {
       <thead>
         <tr>
           <th>Token</th>
-          <th>Balance</th>
           <th>Symbol</th>
+          <th>Balance</th>
           <th>Approval</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Ethereum</td>
-          <td>{nativeBalance.balance ? ethers.utils.formatEther(nativeBalance.balance) : ""}</td>
           <td>ETH</td>
+
+          <td>{nativeBalance.balance ? ethers.utils.formatEther(nativeBalance.balance) : ""}</td>
         </tr>
         {tokens.map((token, index) => (
           <tr key={index}>
             <td>{token.name}</td>
-            <td>{ethers.utils.formatEther(token.balance)}</td>
             <td>{token.symbol}</td>
+            <td>{ethers.utils.formatEther(token.balance)}</td>
             <td>
               {!token.isApproved ? (
                 <Button
