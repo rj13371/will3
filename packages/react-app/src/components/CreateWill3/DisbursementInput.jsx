@@ -50,8 +50,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       let beneficiary_address = [];
       let percentages = [];
 
-      console.log(values);
-
       for (const disbursements of values.disbursements) {
         token_address.push(disbursements.token_address);
         beneficiary_address.push(disbursements.beneficiary_address);
@@ -79,12 +77,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
           { value: 700000 },
         ),
         update => {
-          console.log("📡 Transaction Update:", update, emailRef.current);
-          console.log(
-            disbursementFormTokenAddresses,
-            disbursementFormPercentages,
-            disbursementFormBeneficiaryAddresses,
-          );
+          console.log("📡 Transaction Update:", update, emailRef.current, didMount.current);
 
           let etherscanNetwork = "";
           if (update.network) {
@@ -97,28 +90,10 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
             return <>{"💀"}</>;
           }
 
-          if (update && (update.status === "pending" || update.status === 1)) {
-            const btn = (
-              <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + update.hash)}>
-                View on Explorer
-              </Button>
-            );
-
-            notification.info({
-              className: "frontendModal",
-              message: "Your will is being written...",
-              description: update.status,
-              placement: "bottomRight",
-              duration: 5,
-              btn,
-              icon: <Icon />,
-            });
-          }
-
           if (update && (update.status === "confirmed" || update.status === 1)) {
             const btn = (
-              <Button type="primary" size="small" onClick={() => window.alert("change this later to go to dashboard")}>
-                Dashboard
+              <Button type="primary" size="small">
+                <a href="/dashboard">Dashboard</a>
               </Button>
             );
 
@@ -127,7 +102,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               message: "Will 3 Created!",
               description: update.status,
               placement: "bottomRight",
-              duration: 0,
+              duration: 5,
               btn,
               icon: <Icon />,
             });
@@ -143,11 +118,12 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
                   address: userAddress,
                   txHash: update.hash,
                 });
+
+                emailRef.current = null;
               } catch (e) {
                 console.log(e);
               }
             };
-
             sendEmail();
           }
         },

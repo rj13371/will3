@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { notification, Button } from "antd";
 import Notify from "bnc-notify";
 import { BLOCKNATIVE_DAPPID } from "../constants";
 
@@ -53,12 +53,19 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
       }
 
       let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
-      if (network.chainId === 100) {
-        etherscanTxUrl = "https://blockscout.com/poa/xdai/tx/";
+      if (network.chainId === 43113) {
+        etherscanTxUrl = "https://testnet.snowtrace.io/tx/";
       }
 
       try {
         let result;
+
+        const btn = (
+          <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + result.hash)}>
+            View on Explorer
+          </Button>
+        );
+
         if (tx instanceof Promise) {
           if (DEBUG) console.log("AWAITING TX", tx);
           result = await tx;
@@ -72,7 +79,25 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
           if (DEBUG) console.log("RUNNING TX", tx);
           result = await signer.sendTransaction(tx);
         }
-        if (DEBUG) console.log("RESULT:", result);
+        if (DEBUG) {
+          console.log("RESULT:", result);
+
+          function Icon() {
+            return <>{"💀"}</>;
+          }
+
+          if (result && (result.status === "pending" || result.confirmations === 0)) {
+            notification.info({
+              className: "frontendModal",
+              message: "Your transaction is being written...",
+              description: result.status,
+              placement: "bottomRight",
+              duration: 5,
+              btn,
+              icon: <Icon />,
+            });
+          }
+        }
 
         if (callback) {
           callbacks[result.hash] = callback;
@@ -90,9 +115,10 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
           });
         } else {
           notification.info({
-            message: "Local Transaction Sent",
+            message: "AVAX Testnet transaction sent",
             description: result.hash,
             placement: "bottomRight",
+            btn,
           });
           // on most networks BlockNative will update a transaction handler,
           // but locally we will set an interval to listen...

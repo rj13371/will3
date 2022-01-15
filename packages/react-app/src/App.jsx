@@ -421,20 +421,35 @@ function App(props) {
                   </h4>
                 </div>
 
-                <DisbursementInput tx={tx} writeContracts={writeContracts} userAddress={address} />
+                <DisbursementInput tx={tx} writeContracts={writeContracts} userAddress={address} setRoute={setRoute} />
               </div>
-
-              {/* <ContractInteraction
-                name="YourContract"
-                price={price}
-                signer={userSigner}
-                provider={localProvider}
-                address={address}
-                blockExplorer={blockExplorer}
-                contractConfig={contractConfig}
-              /> */}
             </Fragment>
           </Route>
+
+          <Route exact path="/dashboard">
+            <Fragment>
+              <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+                <div>
+                  <h1>Dashboard</h1>
+                </div>
+                {address ? (
+                  <>
+                    <h4 style={{ textAlign: "left" }}>
+                      Your Will 3{" "}
+                      <Tooltip placement="top" title="Placeholder">
+                        <InfoCircleOutlined
+                          style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                        />
+                      </Tooltip>
+                    </h4>
+                  </>
+                ) : (
+                  ``
+                )}
+              </div>
+            </Fragment>
+          </Route>
+
           <Route path="/hints">
             <Hints
               address={address}

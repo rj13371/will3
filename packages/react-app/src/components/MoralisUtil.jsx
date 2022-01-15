@@ -11,16 +11,14 @@ const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
+  Moralis.start({ serverUrl, appId });
+
   const { chainId, userAddress, signer, provider, address } = props;
 
   const { updateTokenList } = useContext(TokenAddressListContext);
 
-  Moralis.start({ serverUrl, appId });
-
   const [tokens, setTokens] = useState([]);
   const [nativeBalance, setnativeBalance] = useState([]);
-
-  console.log(props);
 
   useEffect(() => {
     (async () => {
@@ -32,7 +30,7 @@ export default function MoralisUtil(props) {
       updateTokenList(balances);
       setnativeBalance(nativeBalance);
     })();
-  }, [props.userAddress]);
+  }, [userAddress, chainId]);
 
   const erc20Abi = [
     "function balanceOf(address owner) view returns (uint256)",
@@ -63,6 +61,8 @@ export default function MoralisUtil(props) {
 
             const result = await makeCall("allowance", tempContract, [userAddress, address]);
 
+            console.log(result);
+
             if (result._hex !== "0x00") {
               token.isApproved = true;
             }
@@ -88,10 +88,14 @@ export default function MoralisUtil(props) {
       </thead>
       <tbody>
         <tr>
-          <td>Ethereum</td>
-          <td>ETH</td>
-
-          <td>{nativeBalance.balance ? ethers.utils.formatEther(nativeBalance.balance) : ""}</td>
+          <td>Avalanche</td>
+          <td>AVAX</td>
+          <td>{nativeBalance.balance ? Number(ethers.utils.formatEther(nativeBalance.balance)) : ""}</td>
+          <td>
+            <Tooltip placement="top" title="Approved">
+              ✅
+            </Tooltip>
+          </td>
         </tr>
         {tokens.map((token, index) => (
           <tr key={index}>

@@ -3,7 +3,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: NITEMARE, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .frontendModal {
@@ -19,4 +19,9 @@ code {
     z-index: 100 !important;
     right: 15% !important;
   }
+}
+
+@font-face {
+  font-family: "NITEMARE";
+  src: local("NITEMARE"), url(./fonts/NITEMARE.TTF) format("truetype");
 }

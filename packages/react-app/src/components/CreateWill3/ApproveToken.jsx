@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import { ethers } from "ethers";
 
 export default function ApproveToken(signer, provider, address, token) {
-  console.log(signer, provider, address, token);
-
   const erc20Abi = [
     "function balanceOf(address owner) view returns (uint256)",
     "function approve(address _spender, uint256 _value) public returns (bool success)",
@@ -30,7 +28,7 @@ export default function ApproveToken(signer, provider, address, token) {
       const result = await makeCall("approve", tempContract, [
         address,
         ethers.utils.hexlify(ethers.utils.parseUnits("1000000000", token.decimals)),
-      ]); 
+      ]);
       console.log(result);
       return true;
     } catch (e) {
