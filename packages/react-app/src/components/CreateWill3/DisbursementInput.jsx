@@ -3,6 +3,7 @@ import { Form, Input, Button, Space, Select, InputNumber, Checkbox, Tooltip } fr
 import { MinusCircleOutlined, PlusOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
+import { notification } from "antd";
 
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   const UserEmail = Moralis.Object.extend("UserEmail");
@@ -74,6 +75,52 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       ),
       update => {
         console.log("📡 Transaction Update:", update, emailRef.current);
+
+        let etherscanNetwork = "";
+        if (update.network) {
+          etherscanNetwork = update.network + ".";
+        }
+
+        let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
+
+        function Icon() {
+          return <>{"💀"}</>;
+        }
+
+        if (update && (update.status === "pending" || update.status === 1)) {
+          const btn = (
+            <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + update.hash)}>
+              View on Explorer
+            </Button>
+          );
+
+          notification.info({
+            message: "Your will is being written...",
+            description: update.status,
+            placement: "bottomRight",
+            duration: 5,
+            btn,
+            icon: <Icon />,
+          });
+        }
+
+        if (update && (update.status === "confirmed" || update.status === 1)) {
+          const btn = (
+            <Button type="primary" size="small" onClick={() => window.alert("change this later to go to dashboard")}>
+              Dashboard
+            </Button>
+          );
+
+          notification.info({
+            message: "Will 3 Created!",
+            description: update.status,
+            placement: "bottomRight",
+            duration: 0,
+            btn,
+            icon: <Icon />,
+          });
+        }
+
         if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
           console.log(`Run Moralis Cloud Function with ${emailRef.current}`);
 
