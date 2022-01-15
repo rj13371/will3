@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract YourContract is Ownable {
+contract Will3Master is Ownable {
     event CreateWill3(address sender);
     event UpdateWill3(address sender);
     event UpdateDisbursementBlock(address sender);

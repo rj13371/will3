@@ -398,7 +398,7 @@ function App(props) {
                       userAddress={address}
                       signer={userSigner}
                       provider={localProvider}
-                      address={readContracts.YourContract ? readContracts.YourContract.address : "null"}
+                      address={readContracts.Will3Master ? readContracts.Will3Master.address : "null"}
                     />
                   </>
                 ) : (
@@ -443,7 +443,7 @@ function App(props) {
 
           <Route exact path="/debug">
             <Contract
-              name="YourContract"
+              name="Will3Master"
               price={price}
               signer={userSigner}
               provider={localProvider}

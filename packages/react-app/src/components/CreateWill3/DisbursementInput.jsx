@@ -66,7 +66,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
   const createWill = async () => {
     tx(
-      writeContracts.YourContract.createWill3(
+      writeContracts.Will3Master.createWill3(
         [...disbursementFormTokenAddresses],
         [...disbursementFormPercentages],
         [...disbursementFormBeneficiaryAddresses],
