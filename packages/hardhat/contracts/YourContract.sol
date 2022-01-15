@@ -101,6 +101,7 @@ contract YourContract is Ownable {
 
     function increaseDisbursementBlock(uint256 blockIncrease) public payable {
         require(blockIncrease <= MAX_BLOCK_INCREASE, "BLOCK INCREASE EXCEEDS MAX ALLOWED");
+        require(blockIncrease > 0, "BLOCK INCREASE MUST BE GREATER THAN ONE");
         addressToDisburseBlock[msg.sender] += blockIncrease;
         emit UpdateDisbursementBlock(msg.sender);
     }
