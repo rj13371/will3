@@ -11,7 +11,7 @@ const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
-  const { userAddress, signer, provider, address } = props;
+  const { chainId, userAddress, signer, provider, address } = props;
 
   const { updateTokenList } = useContext(TokenAddressListContext);
 
@@ -24,7 +24,7 @@ export default function MoralisUtil(props) {
 
   useEffect(() => {
     (async () => {
-      const options = { chain: `0x4`, address: `${userAddress}` };
+      const options = { chain: chainId, address: `${userAddress}` };
       const balances = await Moralis.Web3API.account.getTokenBalances(options);
       const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
 

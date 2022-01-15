@@ -48,7 +48,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.fujiAvalanche; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -391,10 +391,13 @@ function App(props) {
                     <h4 style={{ textAlign: "left" }}>
                       Your Assets{" "}
                       <Tooltip placement="top" title="Placeholder">
-                        <InfoCircleOutlined style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }} />
+                        <InfoCircleOutlined
+                          style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                        />
                       </Tooltip>
                     </h4>
                     <MoralisUtil
+                      chainId={"0xa869"}
                       userAddress={address}
                       signer={userSigner}
                       provider={localProvider}

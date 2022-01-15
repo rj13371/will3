@@ -21,7 +21,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
   async function getEmailFromMoralis() {
     const query = new Moralis.Query(UserEmail);
-    console.log(userAddress);
 
     query.equalTo("userAddress", userAddress);
 
