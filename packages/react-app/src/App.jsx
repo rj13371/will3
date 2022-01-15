@@ -390,11 +390,8 @@ function App(props) {
                   <>
                     <h4 style={{ textAlign: "left" }}>
                       Your Assets{" "}
-                      <Tooltip
-                        placement="top"
-                        title="Placeholder"
-                      >
-                        <InfoCircleOutlined style={{ verticalAlign: "0.05em" }} />
+                      <Tooltip placement="top" title="Placeholder">
+                        <InfoCircleOutlined style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }} />
                       </Tooltip>
                     </h4>
                     <MoralisUtil
@@ -414,7 +411,9 @@ function App(props) {
                       placement="top"
                       title="Assets remain in your wallet. When your Will3 disbursement block has passed, your Will3's disbursements can be triggered."
                     >
-                      <InfoCircleOutlined style={{ verticalAlign: "0.05em", marginBottom: "12px" }} />
+                      <InfoCircleOutlined
+                        style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                      />
                     </Tooltip>
                   </h4>
                 </div>
