@@ -17,6 +17,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   const [disbursementFormPercentages, setDisbursementFormPercentages] = useState([]);
 
   const emailRef = useRef(null);
+  const didMount = useRef(false);
 
   async function getEmailFromMoralis() {
     const query = new Moralis.Query(UserEmail);
@@ -37,6 +38,8 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   }
 
   const onFinish = async values => {
+    didMount.current = true;
+
     try {
       if (values.email) {
         emailRef.current = values.email;
@@ -48,6 +51,8 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       let beneficiary_address = [];
       let percentages = [];
 
+      console.log(values);
+
       for (const disbursements of values.disbursements) {
         token_address.push(disbursements.token_address);
         beneficiary_address.push(disbursements.beneficiary_address);
@@ -56,91 +61,105 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
       setDisbursementFormTokenAddresses([...token_address]);
 
-      setDisbursementFormBeneficiaryAddresses([...beneficiary_address]);
-
       setDisbursementFormPercentages([...percentages]);
+
+      setDisbursementFormBeneficiaryAddresses([...beneficiary_address]);
     } catch (e) {
       //temp error handle
       window.alert(e);
     }
   };
 
-  const createWill = async () => {
-    tx(
-      writeContracts.Will3Master.createWill3(
-        [...disbursementFormTokenAddresses],
-        [...disbursementFormPercentages],
-        [...disbursementFormBeneficiaryAddresses],
-        { value: 700000 },
-      ),
-      update => {
-        console.log("📡 Transaction Update:", update, emailRef.current);
-
-        let etherscanNetwork = "";
-        if (update.network) {
-          etherscanNetwork = update.network + ".";
-        }
-
-        let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
-
-        function Icon() {
-          return <>{"💀"}</>;
-        }
-
-        if (update && (update.status === "pending" || update.status === 1)) {
-          const btn = (
-            <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + update.hash)}>
-              View on Explorer
-            </Button>
+  useEffect(() => {
+    const createWill = async () => {
+      tx(
+        writeContracts.Will3Master.createWill3(
+          disbursementFormTokenAddresses,
+          disbursementFormPercentages,
+          disbursementFormBeneficiaryAddresses,
+          { value: 700000 },
+        ),
+        update => {
+          console.log("📡 Transaction Update:", update, emailRef.current);
+          console.log(
+            disbursementFormTokenAddresses,
+            disbursementFormPercentages,
+            disbursementFormBeneficiaryAddresses,
           );
 
-          notification.info({
-            message: "Your will is being written...",
-            description: update.status,
-            placement: "bottomRight",
-            duration: 5,
-            btn,
-            icon: <Icon />,
-          });
-        }
+          let etherscanNetwork = "";
+          if (update.network) {
+            etherscanNetwork = update.network + ".";
+          }
 
-        if (update && (update.status === "confirmed" || update.status === 1)) {
-          const btn = (
-            <Button type="primary" size="small" onClick={() => window.alert("change this later to go to dashboard")}>
-              Dashboard
-            </Button>
-          );
+          let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
 
-          notification.info({
-            message: "Will 3 Created!",
-            description: update.status,
-            placement: "bottomRight",
-            duration: 0,
-            btn,
-            icon: <Icon />,
-          });
-        }
+          function Icon() {
+            return <>{"💀"}</>;
+          }
 
-        if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
-          console.log(`Run Moralis Cloud Function with ${emailRef.current}`);
+          if (update && (update.status === "pending" || update.status === 1)) {
+            const btn = (
+              <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + update.hash)}>
+                View on Explorer
+              </Button>
+            );
 
-          const sendEmail = async () => {
-            try {
-              await Moralis.Cloud.run("emailSubscribe", {
-                email: emailRef.current,
-                address: userAddress,
-                txHash: update.hash,
-              });
-            } catch (e) {
-              console.log(e);
-            }
-          };
+            notification.info({
+              className: "frontendModal",
+              message: "Your will is being written...",
+              description: update.status,
+              placement: "bottomRight",
+              duration: 5,
+              btn,
+              icon: <Icon />,
+            });
+          }
 
-          sendEmail();
-        }
-      },
-    );
-  };
+          if (update && (update.status === "confirmed" || update.status === 1)) {
+            const btn = (
+              <Button type="primary" size="small" onClick={() => window.alert("change this later to go to dashboard")}>
+                Dashboard
+              </Button>
+            );
+
+            notification.info({
+              className: "frontendModal",
+              message: "Will 3 Created!",
+              description: update.status,
+              placement: "bottomRight",
+              duration: 0,
+              btn,
+              icon: <Icon />,
+            });
+          }
+
+          if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
+            console.log(`Run Moralis Cloud Function with ${emailRef.current}`);
+
+            const sendEmail = async () => {
+              try {
+                await Moralis.Cloud.run("emailSubscribe", {
+                  email: emailRef.current,
+                  address: userAddress,
+                  txHash: update.hash,
+                });
+              } catch (e) {
+                console.log(e);
+              }
+            };
+
+            sendEmail();
+          }
+        },
+      );
+    };
+
+    if (didMount.current) {
+      createWill();
+      didMount.current = false;
+    }
+  }, [disbursementFormBeneficiaryAddresses]);
 
   return (
     <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
@@ -208,14 +227,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.Item>
 
       <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          onClick={() => {
-            console.log("create will3");
-            createWill();
-          }}
-        >
+        <Button type="primary" htmlType="submit">
           Create Will3
         </Button>
       </Form.Item>
