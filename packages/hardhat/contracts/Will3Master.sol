@@ -100,14 +100,15 @@ contract Will3Master is Ownable {
     }
 
     function increaseDisbursementBlock(uint256 blockIncrease) public payable {
+        require(msg.value >= will3UpdateCost, "INCREASE ETH TO UPDATE DISBURSEMENT BLOCK");
         require(blockIncrease <= MAX_BLOCK_INCREASE, "BLOCK INCREASE EXCEEDS MAX ALLOWED");
-        require(blockIncrease > 0, "BLOCK INCREASE MUST BE GREATER THAN ONE");
+        require(blockIncrease > 0, "BLOCK INCREASE MUST BE GREATER THAN ZERO");
         addressToDisburseBlock[msg.sender] += blockIncrease;
         emit UpdateDisbursementBlock(msg.sender);
     }
 
     function sendDisbursements(address deceasedAddress) public {
-        require(addressToDisburseBlock[deceasedAddress] >= block.number, "DISBURSEMENT BLOCK HAS NOT EXPIRED YET");
+        require(addressToDisburseBlock[deceasedAddress] > block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
         Will3[] memory wills = addressToWill3[deceasedAddress];
         // mapping(address => uint256) memory assetAddressToOriginalAmount;
         // console.log()
@@ -116,6 +117,10 @@ contract Will3Master is Ownable {
             console.log(wills[i].percentageOfHoldings);
             console.log(wills[i].receivingAddress);
         }
+        // check permissions for contract to be able to send asset on behalf of address
+        // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
+        // if not, skip it
+        // if yes, send the asset to the address
         console.log("length of wills");
         console.log(wills.length);
         // return address(this).balance;

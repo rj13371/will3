@@ -6,17 +6,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.ant-notification-notice {
-  position: fixed !important;
-  width: 384px !important;
-  z-index: 100 !important;
-  right: 40% !important;
-  bottom: 50% !important;
-}
-
-@media only screen and (max-width: 600px) {
-  .ant-notification-notice {
-    z-index: 100 !important;
-    right: 15% !important;
-  }
-}
