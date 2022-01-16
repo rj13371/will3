@@ -3,7 +3,7 @@ body {
 }
 
 code {
-  font-family: NITEMARE, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: BurtonsDreamsPro-R1rE, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .frontendModal {
@@ -22,6 +22,6 @@ code {
 }
 
 @font-face {
-  font-family: "NITEMARE";
-  src: local("NITEMARE"), url(./fonts/NITEMARE.TTF) format("truetype");
+  font-family: "BurtonsDreamsPro-R1rE";
+  src: local("BurtonsDreamsPro-R1rE"), url(./fonts/BurtonsDreamsPro-R1rE.ttf) format("truetype");
 }
