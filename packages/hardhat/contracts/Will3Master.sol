@@ -27,7 +27,7 @@ contract Will3Master is Ownable {
     mapping(address => Will3[]) public addressToWill3;
     mapping(address => bool) public addressToWill3Disbursed;
     mapping(address => uint256) public addressToDisburseBlock;
-    uint256 BLOCK_INCREASE = 3100000;
+    uint256 BLOCK_INCREASE = 0; // 3100000;
     uint256 MAX_BLOCK_INCREASE = 10000000;
 
 
@@ -84,8 +84,8 @@ contract Will3Master is Ownable {
                 )
             );
         }
-        addressToDisburseBlock[msg.sender] = block.number - BLOCK_INCREASE; // remember to change the minus back to a plus
-        addressToWill3Disbursed[msg.sender] = true;
+        addressToDisburseBlock[msg.sender] = block.number + BLOCK_INCREASE;
+        addressToWill3Disbursed[msg.sender] = false;
         console.log(msg.sender, "created a new will3");
         emit CreateWill3(msg.sender);
     }
@@ -112,20 +112,22 @@ contract Will3Master is Ownable {
 
     function sendDisbursements(address deceasedAddress) public {
         require(addressToDisburseBlock[deceasedAddress] < block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
-        require(addressToWill3Disbursed[msg.sender] != true, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
+        require(addressToWill3Disbursed[msg.sender] == false, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
         Will3[] memory wills = addressToWill3[deceasedAddress];
-        // mapping(address => uint256) assetAddressToOriginalAmount;
         for (uint i=0; i<wills.length; i++) {
-            // check permissions for contract to be able to send asset on behalf of address
-            // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
-            // if not, skip it
-            // if yes, send the asset to the address
             ERC20 token = ERC20(wills[i].assetAddress);
-            token.transferFrom(deceasedAddress, wills[i].receivingAddress, 500000);
+            uint256 amountOfToken = token.balanceOf(deceasedAddress);
+            // check permissions for contract to be able to send asset on behalf of address
+            if (token.allowance(deceasedAddress, address(this)) > 0) {
+                // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
+                // if yes, send the asset to the address
+                token.transferFrom(deceasedAddress, wills[i].receivingAddress, uint(amountOfToken) / wills[i].percentageOfHoldings);
+            }
         }
 
         console.log("length of wills");
         console.log(wills.length);
+        addressToWill3Disbursed[msg.sender] = true;
     }
 
     function withdraw() external onlyOwner {
