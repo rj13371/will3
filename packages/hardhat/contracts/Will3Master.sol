@@ -6,6 +6,7 @@ import "hardhat/console.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -24,6 +25,7 @@ contract Will3Master is Ownable {
     }
 
     mapping(address => Will3[]) public addressToWill3;
+    mapping(address => bool) public addressToWill3Disbursed;
     mapping(address => uint256) public addressToDisburseBlock;
     uint256 BLOCK_INCREASE = 3100000;
     uint256 MAX_BLOCK_INCREASE = 10000000;
@@ -82,7 +84,8 @@ contract Will3Master is Ownable {
                 )
             );
         }
-        addressToDisburseBlock[msg.sender] = block.number + BLOCK_INCREASE;
+        addressToDisburseBlock[msg.sender] = block.number - BLOCK_INCREASE; // remember to change the minus back to a plus
+        addressToWill3Disbursed[msg.sender] = true;
         console.log(msg.sender, "created a new will3");
         emit CreateWill3(msg.sender);
     }
@@ -108,24 +111,21 @@ contract Will3Master is Ownable {
     }
 
     function sendDisbursements(address deceasedAddress) public {
-        require(addressToDisburseBlock[deceasedAddress] > block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
+        require(addressToDisburseBlock[deceasedAddress] < block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
+        require(addressToWill3Disbursed[msg.sender] != true, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
         Will3[] memory wills = addressToWill3[deceasedAddress];
-        // mapping(address => uint256) memory assetAddressToOriginalAmount;
-        // console.log()
+        // mapping(address => uint256) assetAddressToOriginalAmount;
         for (uint i=0; i<wills.length; i++) {
-            console.log(wills[i].assetAddress);
-            //ERC20Basic token = ERC20Basic(wills[i].assetAddress);
-            //token.transferFrom(deceasedAddress, wills[i].receivingAddress, 5);
-            console.log(wills[i].percentageOfHoldings);
-            console.log(wills[i].receivingAddress);
+            // check permissions for contract to be able to send asset on behalf of address
+            // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
+            // if not, skip it
+            // if yes, send the asset to the address
+            ERC20 token = ERC20(wills[i].assetAddress);
+            token.transferFrom(deceasedAddress, wills[i].receivingAddress, 500000);
         }
-        // check permissions for contract to be able to send asset on behalf of address
-        // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
-        // if not, skip it
-        // if yes, send the asset to the address
+
         console.log("length of wills");
         console.log(wills.length);
-        // return address(this).balance;
     }
 
     function withdraw() external onlyOwner {
