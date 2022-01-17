@@ -382,14 +382,18 @@ function App(props) {
                   <h1>Create Will3</h1>
                   <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
                     Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
-                    your beneficiaries if your Will3 is executed. Disbursements are stored on-chain, in the Will3 smart contract.
+                    your beneficiaries if your Will3 is executed. Disbursements are stored on-chain, in the Will3 smart
+                    contract.
                   </h5>
                 </div>
                 {address ? (
                   <>
                     <h4 style={{ textAlign: "left" }}>
                       Your Assets{" "}
-                      <Tooltip placement="top" title="Placeholder">
+                      <Tooltip
+                        placement="top"
+                        title="This dashboard shows the assets that are currently in your connected wallet. This data is courtesy of the Moralis API."
+                      >
                         <InfoCircleOutlined
                           style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
                         />
@@ -411,7 +415,7 @@ function App(props) {
                     Disbursements{" "}
                     <Tooltip
                       placement="top"
-                      title="Assets remain in your wallet. When your Will3 disbursement block has passed, your Will3's disbursements can be triggered."
+                      title="Assets listed in disbursements remain in your wallet upon creating a Will3. When your disbursement block has passed, your Will3 can be executed."
                     >
                       <InfoCircleOutlined
                         style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}

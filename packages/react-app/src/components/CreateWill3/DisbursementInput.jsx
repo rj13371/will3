@@ -193,7 +193,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
           Reminder email (optional){" "}
           <Tooltip
             placement="top"
-            title="Enable reminder emails below to get notifications about upcoming Will3 block expirations."
+            title="Enable reminder emails below to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
           >
             <InfoCircleOutlined style={{ verticalAlign: "0.05em", marginLeft: "2px" }} />
           </Tooltip>
