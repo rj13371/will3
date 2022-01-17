@@ -26,6 +26,7 @@ import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
 import { MoralisUtil } from "./components";
 import DisbursementInput from "./components/CreateWill3/DisbursementInput";
 import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
+import Dashboard from "./components/Dashboard";
 
 const { ethers } = require("ethers");
 /*
@@ -430,27 +431,9 @@ function App(props) {
           </Route>
 
           <Route exact path="/dashboard">
-            <Fragment>
-              <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
-                <div>
-                  <h1>Dashboard</h1>
-                </div>
-                {address ? (
-                  <>
-                    <h4 style={{ textAlign: "left" }}>
-                      Your Will 3{" "}
-                      <Tooltip placement="top" title="Placeholder">
-                        <InfoCircleOutlined
-                          style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
-                        />
-                      </Tooltip>
-                    </h4>
-                  </>
-                ) : (
-                  ``
-                )}
-              </div>
-            </Fragment>
+            {address && writeContracts && tx && (
+              <Dashboard chainId={"0xa869"} tx={tx} writeContracts={writeContracts} address={address} />
+            )}
           </Route>
 
           <Route path="/hints">

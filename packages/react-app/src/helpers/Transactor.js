@@ -1,6 +1,7 @@
 import { notification, Button } from "antd";
 import Notify from "bnc-notify";
 import { BLOCKNATIVE_DAPPID } from "../constants";
+import digging from "../assets/Digging.gif";
 
 const { ethers } = require("ethers");
 
@@ -12,6 +13,7 @@ const callbacks = {};
 const DEBUG = true;
 
 export default function Transactor(providerOrSigner, gasPrice, etherscan) {
+  const digImg = <img width={200} src={digging} alt="loading..." />;
   if (typeof providerOrSigner !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async (tx, callback) => {
@@ -90,7 +92,7 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
             notification.info({
               className: "frontendModal",
               message: "Your transaction is being written...",
-              description: result.status,
+              description: digImg,
               placement: "bottomRight",
               duration: 5,
               btn,
