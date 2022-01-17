@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Form, Input, Button, Space, Select, InputNumber, Checkbox, Tooltip } from "antd";
+import { Form, Input, Button, Space, Select, InputNumber, Image, Tooltip } from "antd";
 import { MinusCircleOutlined, PlusOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
 import { notification } from "antd";
+import digging from "../../assets/Digging.gif";
 
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
+  const digImg = <img width={200} src={digging} alt="loading..." />;
+
   const UserEmail = Moralis.Object.extend("UserEmail");
 
   const { tokenList } = useContext(TokenAddressListContext);
@@ -92,7 +95,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
           if (update && (update.status === "confirmed" || update.status === 1)) {
             const btn = (
-              <Button type="primary" size="small">
+              <Button style={{ alignContent: "center" }} type="primary" size="small">
                 <a href="/dashboard">Dashboard</a>
               </Button>
             );
@@ -101,7 +104,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               className: "frontendModal",
               message: "Will 3 Created!",
               description: update.status,
-              placement: "bottomRight",
+              placement: "topLeft",
               duration: 5,
               btn,
               icon: <Icon />,
@@ -156,7 +159,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
                 <Form.Item name={[name, "token_address"]} style={{ minWidth: "100px" }}>
                   <Select>
                     {/* change avax value to its address later */}
-                    <Select.Option value={"AVAX_ADDRESS"} key={"AVAX"}>
+                    <Select.Option value={"0x0000000000000000000000000000000000000000"} key={"AVAX"}>
                       {"AVAX"}
                     </Select.Option>
 

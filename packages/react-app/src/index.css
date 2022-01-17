@@ -8,10 +8,10 @@ code {
 
 .frontendModal {
   position: fixed !important;
+  top: 40% !important;
   width: 384px !important;
   z-index: 100 !important;
   right: 40% !important;
-  bottom: 50% !important;
 }
 
 @media only screen and (max-width: 600px) {
