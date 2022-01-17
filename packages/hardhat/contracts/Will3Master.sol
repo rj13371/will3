@@ -114,6 +114,8 @@ contract Will3Master is Ownable {
         // console.log()
         for (uint i=0; i<wills.length; i++) {
             console.log(wills[i].assetAddress);
+            //ERC20Basic token = ERC20Basic(wills[i].assetAddress);
+            //token.transferFrom(deceasedAddress, wills[i].receivingAddress, 5);
             console.log(wills[i].percentageOfHoldings);
             console.log(wills[i].receivingAddress);
         }

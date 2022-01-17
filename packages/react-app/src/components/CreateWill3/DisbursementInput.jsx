@@ -195,10 +195,10 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
             placement="top"
             title="Enable reminder emails below to get notifications about upcoming Will3 block expirations."
           >
-            <InfoCircleOutlined style={{ verticalAlign: "0.05em" }} />
+            <InfoCircleOutlined style={{ verticalAlign: "0.05em", marginLeft: "2px" }} />
           </Tooltip>
         </p>
-        <Input />
+        <Input placeholder="Email address" />
       </Form.Item>
 
       <Form.Item>

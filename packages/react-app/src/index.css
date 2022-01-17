@@ -3,7 +3,7 @@ body {
 }
 
 code {
-  font-family: BurtonsDreamsPro-R1rE, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: opensans, source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .frontendModal {
@@ -22,6 +22,16 @@ code {
 }
 
 @font-face {
-  font-family: "BurtonsDreamsPro-R1rE";
-  src: local("BurtonsDreamsPro-R1rE"), url(./fonts/BurtonsDreamsPro-R1rE.ttf) format("truetype");
+  font-family: "opensans";
+  src: local("opensans"), url(./fonts/opensans.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "burton";
+  src: local("burton"), url(./fonts/BurtonsDreamsPro-R1rE.ttf) format("truetype");
+}
+
+h1 {
+  font-family: burton;
+  font-size: 60px;
 }

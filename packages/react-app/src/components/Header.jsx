@@ -6,7 +6,7 @@ import React from "react";
 export default function Header() {
   return (
     <a href="./" rel="noopener noreferrer">
-      <PageHeader title="🪦 Will3" subTitle="Your last wishes, decentralized." style={{ cursor: "pointer" }} />
+      <PageHeader subTitle="Your last wishes, decentralized." style={{ cursor: "pointer" }} />
     </a>
   );
 }
