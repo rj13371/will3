@@ -15,7 +15,7 @@ const contentMargin = "0 0 0 24px";
 export default function HowItWorks() {
   return (
     <div style={{ margin: "80px 0px" }}>
-      <h2>How It Works</h2>
+      <h1 style={{ marginBottom: 0, fontSize: 36 }}>How It Works</h1>
       <Collapse style={{ textAlign: "left" }} bordered={false} defaultActiveKey={["1"]} onChange={callback} accordion>
         <Panel style={{ fontSize: headerFontSize }} header="What is Will3?" key="1">
           <p style={{ margin: contentMargin }}>
@@ -64,7 +64,7 @@ export default function HowItWorks() {
             or a wide assortment.
           </p>
         </Panel>
-        <Panel style={{ fontSize: headerFontSize }} header="Can I designate money to charity in my Will3?" key="7">
+        <Panel style={{ fontSize: headerFontSize }} bordered="false" header="Can I designate money to charity in my Will3?" key="7">
           <p style={{ margin: contentMargin }}>
             Absolutely! And we highly recommend it. We have a number of charitable options available through Gitcoin
             grants.
