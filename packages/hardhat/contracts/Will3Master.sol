@@ -116,18 +116,25 @@ contract Will3Master is Ownable {
         Will3[] memory wills = addressToWill3[deceasedAddress];
         for (uint i=0; i<wills.length; i++) {
             ERC20 token = ERC20(wills[i].assetAddress);
-            uint256 amountOfToken = token.balanceOf(deceasedAddress);
-            // check permissions for contract to be able to send asset on behalf of address
-            if (token.allowance(deceasedAddress, address(this)) > 0) {
-                // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
-                // if yes, send the asset to the address
-                token.transferFrom(deceasedAddress, wills[i].receivingAddress, uint(amountOfToken) / wills[i].percentageOfHoldings);
+            if (isContract(wills[i].assetAddress)) {
+                uint256 amountOfToken = token.balanceOf(deceasedAddress);
+                // check permissions for contract to be able to send asset on behalf of address
+                if (token.allowance(deceasedAddress, address(this)) > 0) {
+                    // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
+                    // if yes, send the asset to the address
+                    token.transferFrom(deceasedAddress, wills[i].receivingAddress, 50000); // uint(amountOfToken) / wills[i].percentageOfHoldings);
+                }
             }
         }
-
-        console.log("length of wills");
-        console.log(wills.length);
         addressToWill3Disbursed[msg.sender] = true;
+    }
+
+    function isContract(address _addr) private view returns (bool result){
+        uint32 size;
+        assembly {
+            size := extcodesize(_addr)
+        }
+        return (size > 0);
     }
 
     function withdraw() external onlyOwner {
