@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { useMoralis } from "react-moralis";
+import { LoadingOutlined } from "@ant-design/icons";
 import { TokenAddressListContext } from "../context/TokenAddressList";
 import Moralis from "moralis";
 import { Table } from "react-bootstrap";
 const { ethers } = require("ethers");
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch, Tooltip } from "antd";
+import { Button, Spin, Tooltip } from "antd";
 import ApproveToken from "./CreateWill3/ApproveToken";
 
 const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function MoralisUtil(props) {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   Moralis.start({ serverUrl, appId });
 
   const { chainId, userAddress, signer, provider, address } = props;
@@ -19,6 +20,7 @@ export default function MoralisUtil(props) {
 
   const [tokens, setTokens] = useState([]);
   const [nativeBalance, setnativeBalance] = useState([]);
+  const [finishedLoading, setFinishedLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -29,6 +31,7 @@ export default function MoralisUtil(props) {
       setTokens(balances);
       updateTokenList(balances);
       setnativeBalance(nativeBalance);
+      setFinishedLoading(true);
     })();
   }, [userAddress, chainId]);
 
@@ -53,7 +56,7 @@ export default function MoralisUtil(props) {
   };
 
   useEffect(() => {
-    (async () => {
+    const checkAllAllowances = async () => {
       for (const token of tokens) {
         const checkWill3TokenAllowance = async () => {
           try {
@@ -73,9 +76,13 @@ export default function MoralisUtil(props) {
         };
         checkWill3TokenAllowance();
       }
-    })();
-  }, [tokens]);
+    };
+    checkAllAllowances();
+  }, [finishedLoading]);
 
+  if (!finishedLoading) {
+    return <Spin indicator={antIcon} />;
+  }
   return (
     <Table striped bordered hover variant="dark">
       <thead>

@@ -4,10 +4,10 @@ import { MinusCircleOutlined, PlusOutlined, InfoCircleOutlined } from "@ant-desi
 import { TokenAddressListContext } from "../../context/TokenAddressList";
 import Moralis from "moralis";
 import { notification } from "antd";
-import digging from "../../assets/Digging.gif";
+import { useHistory, Link } from "react-router-dom";
 
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
-  const digImg = <img width={200} src={digging} alt="loading..." />;
+  let history = useHistory();
 
   const UserEmail = Moralis.Object.extend("UserEmail");
 
@@ -109,6 +109,10 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               btn,
               icon: <Icon />,
             });
+
+            setTimeout(() => {
+              history.push("/dashboard");
+            }, 6000);
           }
 
           if (update && (update.status === "confirmed" || update.status === 1) && emailRef.current !== null) {
