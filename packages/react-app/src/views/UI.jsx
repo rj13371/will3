@@ -1,6 +1,6 @@
 import { SyncOutlined } from "@ant-design/icons";
 import { utils } from "ethers";
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch } from "antd";
+import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch, Image } from "antd";
 import React, { useState } from "react";
 import { Address, Balance, Events, AssetSelector, HowItWorks, Team } from "../components";
 import { Link } from "react-router-dom";
@@ -18,6 +18,7 @@ export default function UI({
   setRoute,
 }) {
   const titleImage = "./../assets/will3.png";
+  const homePageGif = "./../assets/digging.gif";
 
   return (
     <div>
@@ -47,6 +48,7 @@ export default function UI({
             </Button>
           )}
         </div>
+        <Image width={500} src={homePageGif} style={{ border: "2px solid white" }} />
         <HowItWorks />
         <Team />
       </div>

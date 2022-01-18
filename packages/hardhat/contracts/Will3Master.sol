@@ -27,7 +27,7 @@ contract Will3Master is Ownable {
     mapping(address => Will3[]) public addressToWill3;
     mapping(address => bool) public addressToWill3Disbursed;
     mapping(address => uint256) public addressToDisburseBlock;
-    uint256 BLOCK_INCREASE = 0; // 3100000;
+    uint256 BLOCK_INCREASE = 3100000;
     uint256 MAX_BLOCK_INCREASE = 10000000;
 
 
@@ -117,12 +117,12 @@ contract Will3Master is Ownable {
         for (uint i=0; i<wills.length; i++) {
             ERC20 token = ERC20(wills[i].assetAddress);
             if (isContract(wills[i].assetAddress)) {
-                uint256 amountOfToken = token.balanceOf(deceasedAddress);
+                // uint256 amountOfToken = token.balanceOf(deceasedAddress);
                 // check permissions for contract to be able to send asset on behalf of address
                 if (token.allowance(deceasedAddress, address(this)) > 0) {
                     // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
                     // if yes, send the asset to the address
-                    token.transferFrom(deceasedAddress, wills[i].receivingAddress, 50000); // uint(amountOfToken) / wills[i].percentageOfHoldings);
+                    token.transferFrom(deceasedAddress, wills[i].receivingAddress, 5000000); // uint(amountOfToken) / wills[i].percentageOfHoldings);
                 }
             }
         }
