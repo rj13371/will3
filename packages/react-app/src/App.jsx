@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Menu, Row, Tooltip } from "antd";
+import { Alert, Button, Col, Menu, Row, Tooltip, Spin } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -9,12 +9,11 @@ import {
   useUserProviderAndSigner,
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Fragment } from "react";
-import { useMoralis } from "react-moralis";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { Account, Contract, ContractInteraction, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account, Contract, Header } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { web3Modal } from "./context";
 import externalContracts from "./contracts/external_contracts";
@@ -27,6 +26,7 @@ import { MoralisUtil } from "./components";
 import DisbursementInput from "./components/CreateWill3/DisbursementInput";
 import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
 import Dashboard from "./components/Dashboard";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { ethers } = require("ethers");
 /*
@@ -85,7 +85,7 @@ const localProvider = new ethers.providers.StaticJsonRpcProvider(localProviderUr
 const blockExplorer = targetNetwork.blockExplorer;
 
 function App(props) {
-  const { authenticate, isAuthenticated, user, logout } = useMoralis();
+  const loading = useRef(true);
   const mainnetProvider =
     poktMainnetProvider && poktMainnetProvider._isProvider
       ? poktMainnetProvider
@@ -205,6 +205,7 @@ function App(props) {
       console.log("🌍 DAI contract on mainnet:", mainnetContracts);
       console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
       console.log("🔐 writeContracts", writeContracts);
+      loading.current = false;
     }
   }, [
     mainnetProvider,
@@ -364,6 +365,8 @@ function App(props) {
     );
   }
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -372,67 +375,77 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/will3">
-            {/*
-                🎛 this scaffolding is full of commonly used components
-                this <Contract/> component will automatically parse your ABI
-                and give you a form to interact with it locally
-            */}
-            <Fragment>
-              <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
-                <div>
-                  <h1>Create Will3</h1>
-                  <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
-                    Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
-                    your beneficiaries if your Will3 is executed. Disbursements are stored on-chain, in the Will3 smart
-                    contract.
-                  </h5>
-                </div>
-                {address ? (
-                  <>
-                    <h4 style={{ textAlign: "left" }}>
-                      Your Assets{" "}
+            {loading.current && mainnetProvider && address && selectedChainId && readContracts && writeContracts ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <Fragment>
+                <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+                  <div>
+                    <h1>Create Will3</h1>
+                    <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
+                      Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
+                      your beneficiaries if your Will3 is executed. Disbursements are stored on-chain, in the Will3
+                      smart contract.
+                    </h5>
+                  </div>
+                  {address ? (
+                    <>
+                      <h4 style={{ textAlign: "left" }}>
+                        Your Assets{" "}
+                        <Tooltip
+                          placement="top"
+                          title="This dashboard shows the assets that are currently in your connected wallet. This data is courtesy of the Moralis API."
+                        >
+                          <InfoCircleOutlined
+                            style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                          />
+                        </Tooltip>
+                      </h4>
+                      <MoralisUtil
+                        chainId={"0xa869"}
+                        userAddress={address}
+                        signer={userSigner}
+                        provider={localProvider}
+                        address={readContracts.Will3Master ? readContracts.Will3Master.address : "null"}
+                      />
+                    </>
+                  ) : (
+                    ``
+                  )}
+                  <div style={{ textAlign: "left", marginTop: "36px" }}>
+                    <h4>
+                      Disbursements{" "}
                       <Tooltip
                         placement="top"
-                        title="This dashboard shows the assets that are currently in your connected wallet. This data is courtesy of the Moralis API."
+                        title="Assets listed in disbursements remain in your wallet upon creating a Will3. When your disbursement block has passed, your Will3 can be executed."
                       >
                         <InfoCircleOutlined
                           style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
                         />
                       </Tooltip>
                     </h4>
-                    <MoralisUtil
-                      chainId={"0xa869"}
-                      userAddress={address}
-                      signer={userSigner}
-                      provider={localProvider}
-                      address={readContracts.Will3Master ? readContracts.Will3Master.address : "null"}
-                    />
-                  </>
-                ) : (
-                  ``
-                )}
-                <div style={{ textAlign: "left", marginTop: "36px" }}>
-                  <h4>
-                    Disbursements{" "}
-                    <Tooltip
-                      placement="top"
-                      title="Assets listed in disbursements remain in your wallet upon creating a Will3. When your disbursement block has passed, your Will3 can be executed."
-                    >
-                      <InfoCircleOutlined
-                        style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
-                      />
-                    </Tooltip>
-                  </h4>
-                </div>
+                  </div>
 
-                <DisbursementInput tx={tx} writeContracts={writeContracts} userAddress={address} setRoute={setRoute} />
-              </div>
-            </Fragment>
+                  <DisbursementInput
+                    tx={tx}
+                    writeContracts={writeContracts}
+                    userAddress={address}
+                    setRoute={setRoute}
+                  />
+                </div>
+              </Fragment>
+            )}
           </Route>
 
           <Route exact path="/dashboard">
             {address && writeContracts && tx && (
-              <Dashboard chainId={"0xa869"} tx={tx} writeContracts={writeContracts} address={address} />
+              <Dashboard
+                chainId={"0xa869"}
+                tx={tx}
+                writeContracts={writeContracts}
+                mainnetProvider={mainnetProvider}
+                address={address}
+              />
             )}
           </Route>
 
