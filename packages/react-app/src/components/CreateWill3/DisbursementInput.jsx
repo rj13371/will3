@@ -42,6 +42,8 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   const onFinish = async values => {
     didMount.current = true;
 
+    console.log(values);
+
     try {
       if (values.email) {
         emailRef.current = values.email;
@@ -103,7 +105,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
             notification.info({
               className: "frontendModal",
               message: "Will 3 Created!",
-              description: update.status,
+              description: "Redirecting to Dashboard in a few seconds...",
               placement: "topLeft",
               duration: 5,
               btn,
@@ -195,17 +197,13 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
         )}
       </Form.List>
 
-      <Form.Item name="email" style={{ maxWidth: 300, margin: "auto auto 24px" }}>
-        <p style={{ textAlign: "left", marginBottom: "4px" }}>
-          Reminder email (optional){" "}
-          <Tooltip
-            placement="top"
-            title="Enable reminder emails below to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
-          >
-            <InfoCircleOutlined style={{ verticalAlign: "0.05em", marginLeft: "2px" }} />
-          </Tooltip>
-        </p>
-        <Input placeholder="Email address" />
+      <Form.Item
+        tooltip="Enable reminder emails below to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
+        label="Email"
+        name="email"
+        style={{ maxWidth: 300, margin: "auto auto 24px" }}
+      >
+        <Input type={"email"} />
       </Form.Item>
 
       <Form.Item>

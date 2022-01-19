@@ -375,7 +375,7 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/will3">
-            {loading.current ? (
+            {loading.current && mainnetProvider && address && selectedChainId && readContracts && writeContracts ? (
               <Spin indicator={antIcon} />
             ) : (
               <Fragment>
