@@ -104,10 +104,10 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
             notification.info({
               className: "frontendModal",
-              message: "Will 3 Created!",
-              description: "Redirecting to Dashboard in a few seconds...",
+              message: "Your Will3 has been created successfully!",
+              description: "Redirecting...",
               placement: "topLeft",
-              duration: 5,
+              duration: 20,
               btn,
               icon: <Icon />,
             });

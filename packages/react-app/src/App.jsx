@@ -439,7 +439,13 @@ function App(props) {
 
           <Route exact path="/dashboard">
             {address && writeContracts && tx && (
-              <Dashboard chainId={"0xa869"} tx={tx} writeContracts={writeContracts} address={address} />
+              <Dashboard
+                chainId={"0xa869"}
+                tx={tx}
+                writeContracts={writeContracts}
+                mainnetProvider={mainnetProvider}
+                address={address}
+              />
             )}
           </Route>
 

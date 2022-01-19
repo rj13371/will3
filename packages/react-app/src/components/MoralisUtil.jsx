@@ -113,7 +113,7 @@ export default function MoralisUtil(props) {
         <Table striped bordered hover variant="dark">
           <thead>
             <tr>
-              <th>Token</th>
+              <th>Asset</th>
               <th>Symbol</th>
               <th>Balance</th>
               <th>Approval</th>

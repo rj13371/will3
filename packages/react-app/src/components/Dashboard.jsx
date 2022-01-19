@@ -9,7 +9,7 @@ const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 
 export default function Dashboard(props) {
-  const { writeContracts, address, chainId } = props;
+  const { writeContracts, address, chainId, mainnetProvider } = props;
   const [will, setWill] = useState([]);
   const [dayTimer, setDayTimer] = useState(0);
   const [block, setBlock] = useState(0);
@@ -72,33 +72,22 @@ export default function Dashboard(props) {
     <Fragment>
       <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
         <div>
-          <h1>Dashboard</h1>
+          <h1>Your Will3</h1>
         </div>
         {address && will.length > 0 ? (
           <>
-            <h4 style={{ textAlign: "center" }}>
-              Your Will 3{" "}
-              <Tooltip placement="top" title="Placeholder">
-                <InfoCircleOutlined style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }} />
-              </Tooltip>
-            </h4>
+            <h6 style={{ textAlign: "left", width: "50%", float: "left" }}>
+              {dayTimer ? `Your Will3 is Disburseable in ${dayTimer} Days` : `Your Will was Disbursed on block ${block}`}
+            </h6>
 
-            <h5 style={{ textAlign: "center" }}>
-              {dayTimer
-                ? `Days until Disbursements are released: ${dayTimer} `
-                : `Your Will was disbursed on block ${block}`}
-              <Tooltip placement="top" title="Placeholder">
+            <h6 style={{ textAlign: "right", width: "50%", float: "right" }}>
+              {block ? `Current Block: ${mainnetProvider._lastBlockNumber} | Disbursal Block: ${block}` : ``}
+              <Tooltip
+                placement="top"
+                title="Your Will3 will be disburseable after the current block is greater than your disbursal block."
+              >
                 <InfoCircleOutlined
-                  style={{ marginLeft: "12px", verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
-                />
-              </Tooltip>
-            </h5>
-
-            <h6 style={{ textAlign: "center" }}>
-              {block ? `Block #${block} ` : ``}
-              <Tooltip placement="top" title="Placeholder">
-                <InfoCircleOutlined
-                  style={{ marginLeft: "12px", verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                  style={{ marginLeft: "6px", verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
                 />
               </Tooltip>
             </h6>
@@ -107,9 +96,9 @@ export default function Dashboard(props) {
               <Table striped bordered hover variant="dark">
                 <thead>
                   <tr>
-                    <th>Token</th>
+                    <th>Asset</th>
                     <th>Percentage</th>
-                    <th>Recieving Address</th>
+                    <th>Beneficiary Address</th>
                   </tr>
                 </thead>
                 <tbody>
