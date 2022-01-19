@@ -109,7 +109,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               placement: "topLeft",
               duration: 20,
               btn,
-              icon: <Icon />,
             });
 
             setTimeout(() => {

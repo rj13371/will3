@@ -64,7 +64,12 @@ export default function HowItWorks() {
             or a wide assortment.
           </p>
         </Panel>
-        <Panel style={{ fontSize: headerFontSize }} bordered="false" header="Can I designate money to charity in my Will3?" key="7">
+        <Panel
+          style={{ fontSize: headerFontSize }}
+          bordered="false"
+          header="Can I designate money to charity in my Will3?"
+          key="7"
+        >
           <p style={{ margin: contentMargin }}>
             Absolutely! And we highly recommend it. We have a number of charitable options available through Gitcoin
             grants.

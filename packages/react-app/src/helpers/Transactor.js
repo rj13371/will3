@@ -1,7 +1,7 @@
 import { notification, Button } from "antd";
 import Notify from "bnc-notify";
 import { BLOCKNATIVE_DAPPID } from "../constants";
-import digging from "../assets/Digging.gif";
+import skeleton from "../assets/skeleton-will3.gif";
 
 const { ethers } = require("ethers");
 
@@ -13,7 +13,7 @@ const callbacks = {};
 const DEBUG = true;
 
 export default function Transactor(providerOrSigner, gasPrice, etherscan) {
-  const digImg = <img width={200} src={digging} alt="loading..." />;
+  const digImg = <img width={300} src={skeleton} alt="loading..." />;
   if (typeof providerOrSigner !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async (tx, callback) => {
@@ -63,7 +63,7 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
         let result;
 
         const btn = (
-          <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + result.hash)}>
+          <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + result.hash)} style={{ width: "100%", textAlign: "center" }}>
             View on Explorer
           </Button>
         );
@@ -96,7 +96,6 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
               placement: "bottomRight",
               duration: 5,
               btn,
-              icon: <Icon />,
             });
           }
         }
