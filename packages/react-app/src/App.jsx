@@ -27,6 +27,7 @@ import DisbursementInput from "./components/CreateWill3/DisbursementInput";
 import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
 import Dashboard from "./components/Dashboard";
 import { LoadingOutlined } from "@ant-design/icons";
+import { notification } from "antd";
 
 const { ethers } = require("ethers");
 /*
@@ -85,6 +86,10 @@ const localProvider = new ethers.providers.StaticJsonRpcProvider(localProviderUr
 const blockExplorer = targetNetwork.blockExplorer;
 
 function App(props) {
+  notification.config({
+    maxCount: 1,
+  });
+
   const loading = useRef(true);
   const mainnetProvider =
     poktMainnetProvider && poktMainnetProvider._isProvider
@@ -388,7 +393,7 @@ function App(props) {
                       smart contract.
                     </h5>
                   </div>
-                  {address ? (
+                  {address && userSigner && localProvider ? (
                     <>
                       <h4 style={{ textAlign: "left" }}>
                         Your Assets{" "}

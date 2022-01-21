@@ -89,11 +89,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
             etherscanNetwork = update.network + ".";
           }
 
-          let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
-
-          function Icon() {
-            return <>{"💀"}</>;
-          }
+          // let etherscanTxUrl = "https://" + etherscanNetwork + "etherscan.io/tx/";
 
           if (update && (update.status === "confirmed" || update.status === 1)) {
             const btn = (
@@ -107,11 +103,12 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               message: "Your Will3 has been created successfully!",
               description: "Redirecting...",
               placement: "topLeft",
-              duration: 20,
+              duration: 4,
               btn,
             });
 
             setTimeout(() => {
+              notification.destroy();
               history.push("/dashboard");
             }, 6000);
           }

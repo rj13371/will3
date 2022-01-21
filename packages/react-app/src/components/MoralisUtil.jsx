@@ -69,7 +69,7 @@ export default function MoralisUtil(props) {
       tokens = balances;
       setTokens(balances);
       updateTokenList(balances);
-      setnativeBalance(nativeBalance);
+      setnativeBalance(ethers.utils.formatEther(nativeBalance.balance));
     })();
 
     const checkAllAllowances = async () => {
@@ -103,11 +103,11 @@ export default function MoralisUtil(props) {
       console.log("checked", finishedLoading);
       componentMounted.current = false; // (4) set it to false when we leave the page
     };
-  }, [userAddress, chainId, signer, provider]);
+  }, [userAddress]);
 
   return (
     <Fragment>
-      {finishedLoading && chainId && userAddress && signer && provider && address ? (
+      {finishedLoading && address ? (
         <Spin indicator={antIcon} />
       ) : (
         <Table striped bordered hover variant="dark">
@@ -123,7 +123,7 @@ export default function MoralisUtil(props) {
             <tr>
               <td>Avalanche</td>
               <td>AVAX</td>
-              <td>{nativeBalance.balance ? Number(ethers.utils.formatEther(nativeBalance.balance)) : ""}</td>
+              <td>{nativeBalance.length > 0 ? Number(nativeBalance).toFixed(4) : ""}</td>
               <td>
                 <Tooltip placement="top" title="Approved">
                   ✅
@@ -134,7 +134,7 @@ export default function MoralisUtil(props) {
               <tr key={index}>
                 <td>{token.name}</td>
                 <td>{token.symbol}</td>
-                <td>{ethers.utils.formatEther(token.balance)}</td>
+                <td>{Number(ethers.utils.formatEther(token.balance)).toFixed(4)}</td>
                 <td>
                   {token.isApproved ? (
                     <Tooltip placement="top" title="Approved">
