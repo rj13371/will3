@@ -30,13 +30,18 @@ export default function UI({
           your death, confirms and honors your last wishes. Decentralize death and make sure your crypto assets end up
           in the right hands.
         </h5>
-        <div style={{ margin: 8, marginBottom: 80, marginTop: 24 }}>
+        <div style={{ margin: 8, marginBottom: 60, marginTop: 24 }}>
           {!address ? (
             <Button className="connect-wallet-button" onClick={loadWeb3Modal}>
               <h5 style={{ color: "black" }}>Connect your wallet to continue</h5>
             </Button>
           ) : (
-            <Button style={{ height: "auto" }} className="connect-wallet-button">
+            <Button
+              style={{ height: "auto", width: "120px" }}
+              shape="round"
+              size="large"
+              className="connect-wallet-button"
+            >
               <Link
                 onClick={() => {
                   setRoute("/will3");

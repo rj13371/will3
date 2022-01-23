@@ -56,7 +56,14 @@ export default function HowItWorks() {
             liquidity pool.
           </p>
         </Panel>
-        <Panel style={{ fontSize: headerFontSize }} header="How should I prepare my wallet for Will3?" key="6">
+        <Panel style={{ fontSize: headerFontSize }} header="Do I need a wallet to use Will 3?" key="6">
+          <p style={{ margin: contentMargin }}>
+            You and your benefactors will need a cryptocurrency wallet to receive assets designated to you upon release
+            of the will. We reccomend <a href="https://metamask.io/">MetaMask</a> or{" "}
+            <a href="https://walletconnect.com/">Wallet Connect</a>.
+          </p>
+        </Panel>
+        <Panel style={{ fontSize: headerFontSize }} header="How should I prepare my wallet for Will3?" key="7">
           <p style={{ margin: contentMargin }}>
             The beauty of Will3 is you can continue using your wallet as normal, or create one using a designated wallet
             that you leave inactive. It is recommend to have Will3 on every wallet you own in the case of unforeseen
@@ -68,7 +75,7 @@ export default function HowItWorks() {
           style={{ fontSize: headerFontSize }}
           bordered="false"
           header="Can I designate money to charity in my Will3?"
-          key="7"
+          key="8"
         >
           <p style={{ margin: contentMargin }}>
             Absolutely! And we highly recommend it. We have a number of charitable options available through Gitcoin

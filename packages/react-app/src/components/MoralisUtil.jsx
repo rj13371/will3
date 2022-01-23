@@ -23,19 +23,6 @@ export default function MoralisUtil(props) {
   const [finishedLoading, setFinishedLoading] = useState(false);
   const componentMounted = useRef(true);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const options = { chain: chainId, address: `${userAddress}` };
-  //     const balances = await Moralis.Web3API.account.getTokenBalances(options);
-  //     const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
-  //     console.log(balances, userAddress);
-
-  //     setTokens(balances);
-  //     updateTokenList(balances);
-  //     setnativeBalance(nativeBalance);
-  //   })();
-  // }, [userAddress, chainId]);
-
   const erc20Abi = [
     "function balanceOf(address owner) view returns (uint256)",
     "function approve(address _spender, uint256 _value) public returns (bool success)",
@@ -95,15 +82,15 @@ export default function MoralisUtil(props) {
       }
     };
     await checkAllAllowances();
-
-    if (componentMounted.current) {
+    componentMounted.current = false;
+    setFinishedLoading(false);
+    if (!componentMounted.current) {
       setFinishedLoading(false);
     }
     return () => {
       console.log("checked", finishedLoading);
-      componentMounted.current = false; // (4) set it to false when we leave the page
     };
-  }, [userAddress]);
+  }, [userAddress, chainId, provider]);
 
   return (
     <Fragment>
@@ -136,13 +123,15 @@ export default function MoralisUtil(props) {
                 <td>{token.symbol}</td>
                 <td>{Number(ethers.utils.formatEther(token.balance)).toFixed(4)}</td>
                 <td>
-                  {token.isApproved ? (
+                  {token.isApproved && (
                     <Tooltip placement="top" title="Approved">
                       ✅
                     </Tooltip>
-                  ) : (
+                  )}
+                  {!token.isApproved && (
                     <Button
-                      type="primary"
+                      shape="round"
+                      size="large"
                       onClick={() => {
                         ApproveToken(signer, provider, address, token);
                       }}

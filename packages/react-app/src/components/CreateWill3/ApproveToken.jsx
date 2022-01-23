@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ethers } from "ethers";
+import { notification } from "antd";
 
 export default function ApproveToken(signer, provider, address, token) {
   const erc20Abi = [
@@ -30,6 +31,18 @@ export default function ApproveToken(signer, provider, address, token) {
         ethers.utils.hexlify(ethers.utils.parseUnits("1000000000", token.decimals)),
       ]);
       console.log(result);
+      notification.info({
+        className: "frontendModal",
+        message: "Transaction sent!",
+        description: (
+          <p>
+            {"See your transaction "}
+            <a href={`https://snowtrace.io/tx/${result.hash}`}>{"here on AVAX explorer"}</a>
+          </p>
+        ),
+        placement: "topLeft",
+        duration: 4,
+      });
       return true;
     } catch (e) {
       console.log(e);

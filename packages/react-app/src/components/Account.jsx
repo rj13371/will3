@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import React from "react";
+import React, { Fragment } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
@@ -38,7 +38,6 @@ import Wallet from "./Wallet";
   - Provide blockExplorer={blockExplorer}, click on address and get the link
               (ex. by default "https://etherscan.io/" or for xdai "https://blockscout.com/poa/xdai/")
 */
-
 export default function Account({
   address,
   userSigner,
@@ -55,15 +54,22 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button
-          key="logoutbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          onClick={logoutOfWeb3Modal}
-        >
-          logout
-        </Button>,
+        <Fragment>
+          <Button
+            key="logoutbutton"
+            style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
+            shape="round"
+            size="large"
+            onClick={logoutOfWeb3Modal}
+          >
+            logout
+          </Button>
+          <a href="/dashboard">
+            <Button style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }} shape="round" size="large">
+              Dashboard
+            </Button>
+          </a>
+        </Fragment>,
       );
     } else {
       modalButtons.push(
@@ -93,6 +99,7 @@ export default function Account({
         "Connecting..."
       )}
       <Balance address={address} provider={localProvider} price={price} />
+
       <Wallet
         address={address}
         provider={localProvider}

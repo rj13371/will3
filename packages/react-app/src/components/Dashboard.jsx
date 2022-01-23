@@ -106,7 +106,7 @@ export default function Dashboard(props) {
       };
       getWill3();
     }
-  }, [writeContracts, address, chainId]);
+  }, [address]);
 
   return (
     <Fragment>
@@ -174,7 +174,7 @@ export default function Dashboard(props) {
                       </Col>
                       <Col span={2}>
                         <Form.Item>
-                          <Button type="primary" htmlType="submit">
+                          <Button shape="round" size="large" htmlType="submit">
                             Increase block
                           </Button>
                         </Form.Item>

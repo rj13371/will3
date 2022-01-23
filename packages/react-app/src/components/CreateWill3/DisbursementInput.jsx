@@ -185,7 +185,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               </Space>
             ))}
             <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+              <Button style={{ width: "200px" }} type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 Add Disbursement
               </Button>
             </Form.Item>
@@ -203,7 +203,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button shape="round" size="large" htmlType="submit">
           Create Will3
         </Button>
       </Form.Item>
