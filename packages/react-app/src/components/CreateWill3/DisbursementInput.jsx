@@ -176,7 +176,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
                 <Form.Item
                   {...restField}
                   name={[name, "beneficiary_address"]}
-                  style={{ minWidth: "300px" }}
+                  style={{ minWidth: "350px" }}
                   rules={[{ required: true, message: "Missing address of beneficiary" }]}
                 >
                   <Input placeholder="Address of beneficiary" />
