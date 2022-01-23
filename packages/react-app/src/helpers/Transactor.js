@@ -63,7 +63,12 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
         let result;
 
         const btn = (
-          <Button type="primary" size="small" onClick={() => window.open(etherscanTxUrl + result.hash)} style={{ width: "100%", textAlign: "center" }}>
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => window.open(etherscanTxUrl + result.hash)}
+            style={{ width: "100%", textAlign: "center" }}
+          >
             View on Explorer
           </Button>
         );
