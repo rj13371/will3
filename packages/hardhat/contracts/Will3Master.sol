@@ -10,7 +10,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Will3Master is Ownable {
+interface KeeperCompatibleInterface {
+    function checkUpkeep(bytes calldata checkData) external returns (bool upkeepNeeded, bytes memory performData);
+    function performUpkeep(bytes calldata performData) external;
+}
+
+contract Will3Master is Ownable, KeeperCompatibleInterface  {
     event CreateWill3(address sender);
     event UpdateWill3(address sender);
     event UpdateDisbursementBlock(address sender);
@@ -24,16 +29,32 @@ contract Will3Master is Ownable {
         address receivingAddress;
     }
 
+    address[] activeWill3Addresses;
+
     mapping(address => Will3[]) public addressToWill3;
     mapping(address => bool) public addressToWill3Disbursed;
     mapping(address => uint256) public addressToDisburseBlock;
     uint256 BLOCK_INCREASE = 3100000;
     uint256 MAX_BLOCK_INCREASE = 10000000;
 
+    // Use an interval in seconds and a timestamp to slow execution of Upkeep
+    uint public immutable interval;
+    
+    constructor(uint updateInterval) {
+        interval = updateInterval;
+    }
 
-    constructor() {
-        // what should we do on deploy?
-        console.log("do a dance");
+    function checkUpkeep(bytes calldata checkData) external view override returns (bool upkeepNeeded, bytes memory performData) {
+        for (uint i = 0; i<activeWill3Addresses.length;i++) {
+            if (block.number > addressToDisburseBlock[activeWill3Addresses[i]]) {
+                upkeepNeeded = true;
+            }
+        }
+        performData = checkData;
+    }
+
+    function performUpkeep(bytes calldata performData) external override {
+        performData;
     }
 
     function setWill3CreationCost(uint256 newCreationCost) public onlyOwner {
@@ -86,6 +107,7 @@ contract Will3Master is Ownable {
         }
         addressToDisburseBlock[msg.sender] = block.number + BLOCK_INCREASE;
         addressToWill3Disbursed[msg.sender] = false;
+        activeWill3Addresses.push(msg.sender);
         console.log(msg.sender, "created a new will3");
         emit CreateWill3(msg.sender);
     }
