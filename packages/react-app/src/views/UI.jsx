@@ -1,28 +1,28 @@
-import { SyncOutlined } from "@ant-design/icons";
-import { utils } from "ethers";
-import { Button, Card, DatePicker, Divider, Input, Progress, Slider, Spin, Switch, Image } from "antd";
+import { Button, Image, Layout } from "antd";
 import React, { useState } from "react";
-import { Address, Balance, Events, AssetSelector, HowItWorks, Team } from "../components";
+import { HowItWorks, Team } from "../components";
 import { Link } from "react-router-dom";
 
-export default function UI({
-  address,
-  mainnetProvider,
-  localProvider,
-  yourLocalBalance,
-  price,
-  tx,
-  readContracts,
-  writeContracts,
-  loadWeb3Modal,
-  setRoute,
-}) {
+export default function UI({ address, loadWeb3Modal, setRoute }) {
   const titleImage = "./../assets/will3.png";
   const homePageGif = "./../assets/digging.gif";
+  const chainlink = "./../assets/chainlink.svg";
+  const avaxLogo = "./../assets/avaxLogo.svg";
+  const moralis = "./../assets/Moralis.svg";
+
+  const { Header, Content, Footer } = Layout;
 
   return (
-    <div>
-      <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
+    <Layout style={{ backgroundColor: "#0F0E0E" }}>
+      <Content
+        style={{
+          padding: 16,
+          width: "80%",
+          margin: "auto",
+          marginTop: 24,
+          paddingBottom: 160,
+        }}
+      >
         <img src={titleImage} style={{ width: "25%" }} />
         <h2 style={{ marginTop: 24, fontSize: 36 }}>Blockchain is predictable. Life is not.</h2>
         <h5 style={{ width: "800px", margin: "auto", marginTop: 24, fontWeight: "normal" }}>
@@ -56,7 +56,13 @@ export default function UI({
         <Image width={500} src={homePageGif} style={{ border: "2px solid white" }} />
         <HowItWorks />
         <Team />
-      </div>
-    </div>
+      </Content>
+      <Footer style={{ backgroundColor: "#0F0E0E" }}>
+        <p> Powered by</p>
+        <Image style={{ padding: "5px" }} width={100} height={40} src={chainlink} />
+        <Image style={{ padding: "5px" }} width={150} height={40} src={avaxLogo} />
+        <Image style={{ padding: "5px" }} width={130} height={40} src={moralis} />
+      </Footer>
+    </Layout>
   );
 }

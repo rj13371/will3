@@ -1,17 +1,10 @@
-import { Alert, Button, Col, Menu, Row, Tooltip, Spin } from "antd";
+import { Alert, Button, Tooltip, Spin } from "antd";
 import "antd/dist/antd.css";
-import {
-  useBalance,
-  useContractLoader,
-  useContractReader,
-  useGasPrice,
-  useOnBlock,
-  useUserProviderAndSigner,
-} from "eth-hooks";
+import { useBalance, useContractLoader, useContractReader, useGasPrice, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Fragment } from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Account, Contract, Header } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
@@ -21,7 +14,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor } from "./helpers";
 // import Hints from "./Hints";
-import { UI, ExampleUI, Hints, Subgraph, Will3 } from "./views";
+import { UI } from "./views";
 import { MoralisUtil } from "./components";
 import DisbursementInput from "./components/CreateWill3/DisbursementInput";
 import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
@@ -53,7 +46,7 @@ const { ethers } = require("ethers");
 const targetNetwork = NETWORKS.fujiAvalanche; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
-const DEBUG = true;
+const DEBUG = false;
 const NETWORKCHECK = true;
 
 // 🛰 providers
@@ -210,7 +203,6 @@ function App(props) {
       console.log("🌍 DAI contract on mainnet:", mainnetContracts);
       console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
       console.log("🔐 writeContracts", writeContracts);
-      loading.current = false;
     }
   }, [
     mainnetProvider,
@@ -302,7 +294,7 @@ function App(props) {
     }
   } else {
     networkDisplay = (
-      <div style={{ zIndex: -1, position: "absolute", right: 154, top: 28, padding: 16, color: targetNetwork.color }}>
+      <div style={{ zIndex: -1, position: "absolute", right: 154, top: 40, padding: 16, color: targetNetwork.color }}>
         {targetNetwork.name}
       </div>
     );
@@ -332,6 +324,7 @@ function App(props) {
   useEffect(() => {
     if (web3Modal.cachedProvider) {
       loadWeb3Modal();
+      loading.current = false;
     }
   }, [loadWeb3Modal]);
 
@@ -380,7 +373,7 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/will3">
-            {loading.current && mainnetProvider && address && selectedChainId && readContracts && writeContracts ? (
+            {loading.current ? (
               <Spin indicator={antIcon} />
             ) : (
               <Fragment>
@@ -454,15 +447,6 @@ function App(props) {
             )}
           </Route>
 
-          <Route path="/hints">
-            <Hints
-              address={address}
-              yourLocalBalance={yourLocalBalance}
-              mainnetProvider={mainnetProvider}
-              price={price}
-            />
-          </Route>
-
           <Route exact path="/debug">
             <Contract
               name="Will3Master"
@@ -476,62 +460,7 @@ function App(props) {
           </Route>
 
           <Route path="/">
-            <UI
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-              loadWeb3Modal={loadWeb3Modal}
-              setRoute={setRoute}
-            />
-          </Route>
-          <Route path="/exampleui">
-            <ExampleUI
-              address={address}
-              userSigner={userSigner}
-              mainnetProvider={mainnetProvider}
-              localProvider={localProvider}
-              yourLocalBalance={yourLocalBalance}
-              price={price}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-            />
-          </Route>
-          <Route path="/mainnetdai">
-            <Contract
-              name="DAI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-              contractConfig={contractConfig}
-              chainId={1}
-            />
-            {/*
-            <Contract
-              name="UNI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.UNI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-            */}
-          </Route>
-          <Route path="/subgraph">
-            <Subgraph
-              subgraphUri={props.subgraphUri}
-              tx={tx}
-              writeContracts={writeContracts}
-              mainnetProvider={mainnetProvider}
-            />
+            <UI address={address} loadWeb3Modal={loadWeb3Modal} setRoute={setRoute} />
           </Route>
         </Switch>
       </BrowserRouter>

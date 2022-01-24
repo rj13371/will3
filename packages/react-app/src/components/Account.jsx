@@ -62,7 +62,7 @@ export default function Account({
             size="large"
             onClick={logoutOfWeb3Modal}
           >
-            logout
+            Logout
           </Button>
           <a href="/dashboard">
             <Button style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }} shape="round" size="large">
@@ -81,7 +81,7 @@ export default function Account({
           /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
           onClick={loadWeb3Modal}
         >
-          connect
+          Connect
         </Button>,
       );
     }

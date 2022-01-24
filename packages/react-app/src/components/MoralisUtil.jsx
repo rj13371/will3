@@ -61,16 +61,19 @@ export default function MoralisUtil(props) {
 
     const checkAllAllowances = async () => {
       for (const token of tokens) {
+        console.log(token);
         const checkWill3TokenAllowance = async () => {
           try {
             const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
 
             const result = await makeCall("allowance", tempContract, [userAddress, address]);
 
-            console.log(result);
+            console.log(token);
 
             if (result._hex !== "0x00") {
               token.isApproved = true;
+            } else {
+              token.isApproved = false;
             }
             console.log(token);
           } catch (e) {
