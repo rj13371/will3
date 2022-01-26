@@ -34,15 +34,16 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
     mapping(address => Will3[]) public addressToWill3;
     mapping(address => bool) public addressToWill3Disbursed;
     mapping(address => uint256) public addressToDisburseBlock;
-    uint256 BLOCK_INCREASE = 3100000;
+    uint256 BLOCK_INCREASE = 0; // 3100000;
     uint256 MAX_BLOCK_INCREASE = 10000000;
 
     // Use an interval in seconds and a timestamp to slow execution of Upkeep
-    uint public immutable interval;
-    
-    constructor(uint updateInterval) {
+    // uint public immutable interval;
+    /*
+    constructor() {
         interval = updateInterval;
     }
+    */
 
     function checkUpkeep(bytes calldata checkData) external view override returns (bool upkeepNeeded, bytes memory performData) {
         for (uint i = 0; i<activeWill3Addresses.length;i++) {
@@ -89,7 +90,7 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
         require(
             will3Length == percentageOfHoldings.length &&
                 will3Length == assetAddress.length,
-            "UNEQUAL AMOUNT OF WILL3 DISPERSEMENTS SENT"
+            "UNEQUAL AMOUNT OF WILL3 DISBURSEMENTS SENT"
         );
         uint256 currentWill3Length = addressToWill3[msg.sender].length;
         for (uint256 i = 0; i < currentWill3Length; i += 1) {
@@ -134,7 +135,7 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
 
     function sendDisbursements(address deceasedAddress) public {
         require(addressToDisburseBlock[deceasedAddress] < block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
-        require(addressToWill3Disbursed[msg.sender] == false, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
+        require(addressToWill3Disbursed[deceasedAddress] == false, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
         Will3[] memory wills = addressToWill3[deceasedAddress];
         for (uint i=0; i<wills.length; i++) {
             ERC20 token = ERC20(wills[i].assetAddress);
@@ -148,7 +149,7 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
                 }
             }
         }
-        addressToWill3Disbursed[msg.sender] = true;
+        addressToWill3Disbursed[deceasedAddress] = true;
     }
 
     function isContract(address _addr) private view returns (bool result){
