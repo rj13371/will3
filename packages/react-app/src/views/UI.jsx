@@ -29,7 +29,7 @@ export default function UI({ address, loadWeb3Modal, setRoute }) {
         <img style={{ padding: "5px" }} width={150} height={60} src={avaxLogo} />
         <img style={{ padding: "5px" }} width={120} height={60} src={chainlink} />
         <h2 style={{ marginTop: 24, fontSize: 36 }}>Blockchains are predictable. Life is not.</h2>
-        <h5 style={{ width: "80%", margin: "auto", marginTop: 24, fontWeight: "normal", maxWidth: 1200 }}>
+        <h5 style={{ width: "85%", margin: "auto", marginTop: 24, fontWeight: "normal", maxWidth: 1200 }}>
           Allocate your assets safely and in a trustless fashion. Will3 monitors your life status and in the event of
           your death, confirms and honors your last wishes. Decentralize death and ensure your crypto assets end up in
           the right hands.

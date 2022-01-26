@@ -36,8 +36,10 @@ export default function ApproveToken(signer, provider, address, token) {
         message: "Transaction sent!",
         description: (
           <p>
-            {"See your transaction "}
-            <a href={`https://snowtrace.io/tx/${result.hash}`}>{"here on AVAX explorer"}</a>
+            {"View your transaction on "}
+            <a href={`https://snowtrace.io/tx/${result.hash}`} target="_blank">
+              {"AVAX Explorer"}
+            </a>
           </p>
         ),
         placement: "topLeft",
