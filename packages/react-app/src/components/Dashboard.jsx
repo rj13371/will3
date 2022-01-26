@@ -6,6 +6,7 @@ import Moralis from "moralis";
 import { Link } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import { notification } from "antd";
+import useWindowSize from "./hooks/useWindowHook";
 
 const appId = "p3XGDec1HqyPMbMUdVq4Fga0lnpIP9oILh4veXtX";
 const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
@@ -18,6 +19,7 @@ export default function Dashboard(props) {
   const [will, setWill] = useState([]);
   const [dayTimer, setDayTimer] = useState(0);
   const [block, setBlock] = useState(0);
+  const size = useWindowSize();
 
   const onFinish = values => {
     console.log("Success:", values);
@@ -169,29 +171,32 @@ export default function Dashboard(props) {
                     <Row justify="center">
                       <Col span={3}>
                         <Form.Item name="increaseBlock">
-                          <InputNumber defaultValue={0} min={0} max={100000000} />
+                          <InputNumber
+                            style={size.width < 700 ? { width: "120px", right: "80px" } : { width: "120px" }}
+                            defaultValue={0}
+                            min={0}
+                            max={100000000}
+                          />
                         </Form.Item>
                       </Col>
-                      <Col span={2}>
+                      <Col span={3}>
                         <Form.Item>
-                          <Button shape="round" size="large" htmlType="submit">
+                          <Button shape="round" size="medium" htmlType="submit">
                             Increase block
+                            <Tooltip
+                              placement="left"
+                              title="You can increase the block that your disbursements will be sent up to a maximum of 10000000 blocks"
+                            >
+                              <InfoCircleOutlined
+                                style={{
+                                  marginLeft: "10px",
+                                  verticalAlign: "0.125em",
+                                  fontSize: "16px",
+                                }}
+                              />
+                            </Tooltip>
                           </Button>
                         </Form.Item>
-                      </Col>
-                      <Col span={2}>
-                        <Tooltip
-                          placement="top"
-                          title="You can increase the block that your disbursements will be sent up to a maximum of 10000000 blocks"
-                        >
-                          <InfoCircleOutlined
-                            style={{
-                              marginLeft: "10px",
-                              verticalAlign: "0.125em",
-                              fontSize: "16px",
-                            }}
-                          />
-                        </Tooltip>
                       </Col>
                     </Row>
                   </Form>

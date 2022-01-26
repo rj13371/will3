@@ -373,43 +373,37 @@ function App(props) {
       <BrowserRouter>
         <Switch>
           <Route exact path="/will3">
-            {loading.current ? (
-              <Spin indicator={antIcon} />
-            ) : (
+            {address && writeContracts && tx && (
               <Fragment>
                 <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
                   <div>
                     <h1>Create Will3</h1>
                     <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
                       Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
-                      your beneficiaries if your Will3 is executed. Disbursements are stored on-chain, in the Will3
+                      your beneficiaries if y our Will3 is executed. Disbursements are stored on-chain, in the Will3
                       smart contract.
                     </h5>
                   </div>
-                  {address && userSigner && localProvider ? (
-                    <>
-                      <h4 style={{ textAlign: "left" }}>
-                        Your Assets{" "}
-                        <Tooltip
-                          placement="top"
-                          title="This dashboard shows the assets that are currently in your connected wallet. This data is courtesy of the Moralis API."
-                        >
-                          <InfoCircleOutlined
-                            style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
-                          />
-                        </Tooltip>
-                      </h4>
-                      <MoralisUtil
-                        chainId={"0xa869"}
-                        userAddress={address}
-                        signer={userSigner}
-                        provider={localProvider}
-                        address={readContracts.Will3Master ? readContracts.Will3Master.address : "null"}
-                      />
-                    </>
-                  ) : (
-                    ``
-                  )}
+                  <>
+                    <h4 style={{ textAlign: "left" }}>
+                      Your Assets{" "}
+                      <Tooltip
+                        placement="top"
+                        title="This dashboard shows the assets that are currently in your connected wallet. This data is courtesy of the Moralis API."
+                      >
+                        <InfoCircleOutlined
+                          style={{ verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
+                        />
+                      </Tooltip>
+                    </h4>
+                    <MoralisUtil
+                      chainId={"0xa869"}
+                      userAddress={address}
+                      signer={userSigner}
+                      provider={localProvider}
+                      address={readContracts.Will3Master ? readContracts.Will3Master.address : "null"}
+                    />
+                  </>
                   <div style={{ textAlign: "left", marginTop: "36px" }}>
                     <h4>
                       Disbursements{" "}
