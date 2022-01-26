@@ -14,7 +14,7 @@ export default function Dashboard(props) {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const [loading, setLoading] = useState(false);
   const [increaseFunctionCalled, setIncreaseFunctionCalled] = useState(0);
-  const { writeContracts, address, chainId, mainnetProvider, tx } = props;
+  const { writeContracts, address, chainId, localProvider, tx } = props;
   const [will, setWill] = useState([]);
   const [dayTimer, setDayTimer] = useState(0);
   const [block, setBlock] = useState(0);
@@ -131,7 +131,7 @@ export default function Dashboard(props) {
               </h6>
 
               <h6 style={{ textAlign: "right", width: "50%", float: "right" }}>
-                {block ? `Current Block: ${mainnetProvider._lastBlockNumber} | Disbursal Block: ${block}` : ``}
+                {block ? `Current Block: ${localProvider._lastBlockNumber} | Disbursal Block: ${block}` : ``}
                 <Tooltip
                   placement="top"
                   title="Your Will3 will be disburseable after the current block is greater than your disbursal block."

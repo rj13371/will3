@@ -441,7 +441,7 @@ function App(props) {
                 chainId={"0xa869"}
                 tx={tx}
                 writeContracts={writeContracts}
-                mainnetProvider={mainnetProvider}
+                localProvider={localProvider}
                 address={address}
               />
             )}
