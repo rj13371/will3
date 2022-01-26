@@ -33,7 +33,7 @@ export default function HowItWorks() {
           <p style={{ margin: contentMargin }}>
             Let's face it: creating a will isn't very high on our to-do list. That probably explains why most people
             don't have one. Confronting our mortality can be uncomfortable, and it's easy to put it off. But you don't
-            want your assets to become cold, like your dead body. Be smart, use Will3, make sure part of you lives on.
+            want your assets to become cold, like your dead body. Use Will3 to ensure part of you lives on.
           </p>
         </Panel>
         <Panel style={{ fontSize: headerFontSize }} header="When should I update my Will3?" key="4">
