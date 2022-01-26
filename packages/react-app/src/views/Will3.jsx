@@ -15,7 +15,7 @@ export default function Will3({
   writeContracts,
   loadWeb3Modal,
 }) {
-  const titleImage = "./../assets/will3.png";
+  const titleImage = "./../assets/will3-white.png";
 
   return (
     <div>

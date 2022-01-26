@@ -4,7 +4,7 @@ import { HowItWorks, Team } from "../components";
 import { Link } from "react-router-dom";
 
 export default function UI({ address, loadWeb3Modal, setRoute }) {
-  const titleImage = "./../assets/will3.png";
+  const titleImage = "./../assets/will3-white.png";
   const homePageGif = "./../assets/digging.gif";
   const chainlink = "./../assets/chainlink.svg";
   const avaxLogo = "./../assets/avaxLogo.svg";
