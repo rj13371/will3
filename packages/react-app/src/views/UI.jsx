@@ -23,9 +23,13 @@ export default function UI({ address, loadWeb3Modal, setRoute }) {
           paddingBottom: 160,
         }}
       >
-        <img src={titleImage} style={{ width: "25%" }} />
-        <h2 style={{ marginTop: 24, fontSize: 36 }}>Blockchain is predictable. Life is not.</h2>
-        <h5 style={{ width: "800px", margin: "auto", marginTop: 24, fontWeight: "normal" }}>
+        <img src={titleImage} style={{ width: "25%", marginBottom: 24 }} />
+        <h4> Powered by</h4>
+        <img style={{ padding: "5px" }} width={120} height={50} src={moralis} />
+        <img style={{ padding: "5px" }} width={150} height={60} src={avaxLogo} />
+        <img style={{ padding: "5px" }} width={120} height={60} src={chainlink} />
+        <h2 style={{ marginTop: 24, fontSize: 36 }}>Blockchains are predictable. Life is not.</h2>
+        <h5 style={{ width: "80%", margin: "auto", marginTop: 24, fontWeight: "normal", maxWidth: 1200 }}>
           Allocate your assets safely and in a trustless fashion. Will3 monitors your life status and in the event of
           your death, confirms and honors your last wishes. Decentralize death and make sure your crypto assets end up
           in the right hands.
@@ -57,12 +61,7 @@ export default function UI({ address, loadWeb3Modal, setRoute }) {
         <HowItWorks />
         <Team />
       </Content>
-      <Footer style={{ backgroundColor: "#0F0E0E" }}>
-        <p> Powered by</p>
-        <Image style={{ padding: "5px" }} width={100} height={40} src={chainlink} />
-        <Image style={{ padding: "5px" }} width={150} height={40} src={avaxLogo} />
-        <Image style={{ padding: "5px" }} width={130} height={40} src={moralis} />
-      </Footer>
+      <Footer style={{ backgroundColor: "#0F0E0E" }} />
     </Layout>
   );
 }
