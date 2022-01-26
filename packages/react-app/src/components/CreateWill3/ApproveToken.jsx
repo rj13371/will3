@@ -37,7 +37,7 @@ export default function ApproveToken(signer, provider, address, token) {
         description: (
           <p>
             {"View your transaction on "}
-            <a href={`https://snowtrace.io/tx/${result.hash}`} target="_blank">
+            <a href={`https://testnet.snowtrace.io/tx/${result.hash}`} target="_blank">
               {"AVAX Explorer"}
             </a>
           </p>
