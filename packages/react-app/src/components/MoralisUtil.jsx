@@ -21,7 +21,7 @@ export default function MoralisUtil(props) {
 
   const [tokens, setTokens] = useState([]);
   const [nativeBalance, setnativeBalance] = useState(0);
-  const [finishedLoading, setFinishedLoading] = useState(true);
+  const [finishedLoading, setFinishedLoading] = useState(false);
   const [error, setError] = useState("");
   const componentMounted = useRef(true);
   const size = useWindowSize();
@@ -58,7 +58,11 @@ export default function MoralisUtil(props) {
           const options = { chain: chainId, address: `${userAddress}` };
           const balances = await Moralis.Web3API.account.getTokenBalances(options);
           const nativeBalance = await Moralis.Web3API.account.getNativeBalance(options);
-          console.log(nativeBalance.balance);
+
+          // DEBUG
+          // console.log("native balance");
+          // console.log(nativeBalance.balance);
+
           tokens = balances;
 
           if (isSubscribed) {
@@ -99,10 +103,10 @@ export default function MoralisUtil(props) {
       };
 
       await checkAllAllowances();
-      setFinishedLoading(false);
+      setFinishedLoading(true);
     };
 
-    fetchMoralis().catch(console.error);
+    await fetchMoralis().catch(console.error);
 
     return () => (isSubscribed = false);
   }, [userAddress]);
@@ -113,7 +117,7 @@ export default function MoralisUtil(props) {
     </Fragment>;
   }
 
-  if (finishedLoading) {
+  if (!finishedLoading) {
     return (
       <Fragment>
         <Spin indicator={antIcon} />
@@ -121,73 +125,72 @@ export default function MoralisUtil(props) {
     );
   } else
     return (
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th style={{ width: "30%" }}>Asset</th>
-            <th style={{ width: "10%" }}>Symbol</th>
-            <th style={{ width: "30%" }}>Balance</th>
-            <th style={{ width: "30%" }}>Approval</th>
-          </tr>
-        </thead>
-        <tbody>
-          {nativeBalance == 0 ? (
-            <Fragment>
-              <tr style={{ width: "100%" }}>
-                <td>Avalanche</td>
-                <td>AVAX</td>
-                <td>
-                  {" "}
-                  <Spin indicator={antIcon} />
-                </td>
-                <td>
-                  <Tooltip placement="top" title="Approved">
-                    ✅
-                  </Tooltip>
-                </td>
+      <span>
+        {nativeBalance == 0 ? (
+          <Fragment>
+            <Spin indicator={antIcon} />
+          </Fragment>
+        ) : (
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th style={{ width: "30%" }}>Asset</th>
+                <th style={{ width: "10%" }}>Symbol</th>
+                <th style={{ width: "30%" }}>Balance</th>
+                <th style={{ width: "30%" }}>Approval</th>
               </tr>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <tr style={{ height: "60px", width: "100%" }}>
-                <td>Avalanche</td>
-                <td>AVAX</td>
-                <td>{Number(nativeBalance).toFixed(4)}</td>
-                <td>
-                  <Tooltip placement="top" title="Approved">
-                    ✅
-                  </Tooltip>
-                </td>
-              </tr>
-            </Fragment>
-          )}
+            </thead>
+            <tbody>
+              <Fragment>
+                <tr style={{ height: "60px", width: "100%" }}>
+                  <td>Avalanche</td>
+                  <td>AVAX</td>
+                  <td>{Number(nativeBalance).toFixed(4)}</td>
+                  <td>
+                    <Tooltip
+                      placement="top"
+                      title="This token is approved for a potential disbursal by Will3 smart contracts"
+                    >
+                      ✅
+                    </Tooltip>
+                  </td>
+                </tr>
+              </Fragment>
 
-          {tokens.map((token, index) => (
-            <tr style={{ height: "60px", width: "100%" }} key={index}>
-              <td>{token.name}</td>
-              <td>{token.symbol}</td>
-              <td>{Number(ethers.utils.formatEther(token.balance)).toFixed(4)}</td>
-              <td>
-                {token.isApproved && (
-                  <Tooltip placement="top" title="Approved">
-                    ✅
-                  </Tooltip>
-                )}
-                {!token.isApproved && (
-                  <Button
-                    shape="round"
-                    size="large"
-                    onClick={() => {
-                      ApproveToken(signer, provider, address, token);
-                    }}
-                  >
-                    Approve Token
-                  </Button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+              {tokens.map((token, index) => (
+                <tr style={{ height: "60px", width: "100%" }} key={index}>
+                  <td>{token.name}</td>
+                  <td>{token.symbol}</td>
+                  <td>{Number(ethers.utils.formatEther(token.balance)).toFixed(4)}</td>
+                  <td>
+                    {token.isApproved === true ? (
+                      <Tooltip
+                        placement="top"
+                        title="This token is approved for a potential disbursal by Will3 smart contracts"
+                      >
+                        ✅
+                      </Tooltip>
+                    ) : token.isApproved === false ? (
+                      <Button
+                        shape="round"
+                        size="large"
+                        onClick={() => {
+                          ApproveToken(signer, provider, address, token);
+                        }}
+                      >
+                        Approve Token
+                      </Button>
+                    ) : (
+                      <Fragment>
+                        <Spin indicator={antIcon} />
+                      </Fragment>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </span>
     );
 }

@@ -3,12 +3,16 @@ import React from "react";
 
 // displays a page header
 
-const logo = "assets/will3logo.png";
+const will3CircleIcon = "assets/will3-circle.png";
 
 export default function Header() {
   return (
     <a href="./" rel="noopener noreferrer">
-      <PageHeader avatar={{ src: logo }} subTitle="Your last wishes, decentralized." style={{ cursor: "pointer" }} />
+      <PageHeader
+        avatar={{ src: will3CircleIcon }}
+        subTitle="Your last wishes. Decentralized."
+        style={{ cursor: "pointer" }}
+      />
     </a>
   );
 }

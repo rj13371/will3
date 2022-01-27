@@ -93,6 +93,7 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
             return <>{"💀"}</>;
           }
 
+          /*
           if (result && (result.status === "pending" || result.confirmations === 0)) {
             notification.info({
               className: "frontendModal",
@@ -103,6 +104,7 @@ export default function Transactor(providerOrSigner, gasPrice, etherscan) {
               btn,
             });
           }
+          */
         }
 
         if (callback) {

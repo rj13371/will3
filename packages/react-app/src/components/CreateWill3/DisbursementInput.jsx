@@ -6,6 +6,8 @@ import Moralis from "moralis";
 import { notification } from "antd";
 import { useHistory, Link } from "react-router-dom";
 
+import skeleton from "../../assets/skeleton-will3.gif";
+
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   let history = useHistory();
 
@@ -98,13 +100,14 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               </Button>
             );
 
+            const digImg = <img width={"85%"} src={skeleton} style={{ margin: "10px" }} alt="loading..." />;
+
             notification.info({
               className: "frontendModal",
-              message: "Your Will3 has been created successfully!",
-              description: "Redirecting...",
+              message: "Your Will3 has been created successfully! Redirecting to dashboard...",
+              description: digImg,
               placement: "topLeft",
               duration: 4,
-              btn,
             });
 
             setTimeout(() => {
@@ -185,7 +188,13 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               </Space>
             ))}
             <Form.Item>
-              <Button style={{ width: "333px" }} type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+              <Button
+                style={{ width: "333px" }}
+                type="dashed"
+                onClick={() => add()}
+                block
+                icon={<PlusOutlined style={{ display: "inline-flex" }} />}
+              >
                 Add Disbursement
               </Button>
             </Form.Item>
@@ -194,7 +203,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.List>
 
       <Form.Item
-        tooltip="Enable reminder emails below to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
+        tooltip="Enable reminder emails to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
         label="Reminder Email"
         name="email"
         style={{ maxWidth: 330, margin: "auto auto 24px" }}
