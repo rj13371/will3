@@ -67,7 +67,10 @@ export default function ReleaseDisbursement(props) {
             <Form.Item
               style={size.width < 700 ? { width: "120px", right: "80px" } : { width: "380px" }}
               name="deceasedAddress"
-              rules={[{ required: true }, { type: "string", min: 42 }]}
+              rules={[
+                { required: true },
+                { type: "string", min: 42, max: 42, message: "Please input a valid wallet address!" },
+              ]}
             >
               <Input placeholder="Address of deceased person" />
             </Form.Item>
@@ -80,7 +83,7 @@ export default function ReleaseDisbursement(props) {
                 Release
                 <Tooltip
                   placement="left"
-                  title="The funds on the deceased persons wallet will be disbursed to their beneficiaries if it has passed the Wills execution block"
+                  title="The funds on the deceased person's wallet will be disbursed to their beneficiaries if it has passed the Will's execution block"
                 >
                   <InfoCircleOutlined
                     style={{
