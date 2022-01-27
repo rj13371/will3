@@ -185,7 +185,13 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               </Space>
             ))}
             <Form.Item>
-              <Button style={{ width: "333px" }} type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+              <Button
+                style={{ width: "333px" }}
+                type="dashed"
+                onClick={() => add()}
+                block
+                icon={<PlusOutlined style={{ display: "inline-flex" }} />}
+              >
                 Add Disbursement
               </Button>
             </Form.Item>
