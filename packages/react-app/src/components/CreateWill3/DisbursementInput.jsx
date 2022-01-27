@@ -200,7 +200,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.List>
 
       <Form.Item
-        tooltip="Enable reminder emails below to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
+        tooltip="Enable reminder emails to get notifications about upcoming Will3 block expirations. Reminder emails are courtesy of the Moralis API."
         label="Reminder Email"
         name="email"
         style={{ maxWidth: 330, margin: "auto auto 24px" }}
