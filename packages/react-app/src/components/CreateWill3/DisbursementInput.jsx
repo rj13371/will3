@@ -6,6 +6,8 @@ import Moralis from "moralis";
 import { notification } from "antd";
 import { useHistory, Link } from "react-router-dom";
 
+import skeleton from "../../assets/skeleton-will3.gif";
+
 export default function DisbursementInput({ tx, writeContracts, userAddress }) {
   let history = useHistory();
 
@@ -98,13 +100,14 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
               </Button>
             );
 
+            const digImg = <img width={"85%"} src={skeleton} style={{ margin: "10px" }} alt="loading..." />;
+
             notification.info({
               className: "frontendModal",
-              message: "Your Will3 has been created successfully!",
-              description: "Redirecting...",
+              message: "Your Will3 has been created successfully! Redirecting to dashboard...",
+              description: digImg,
               placement: "topLeft",
               duration: 4,
-              btn,
             });
 
             setTimeout(() => {
