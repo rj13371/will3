@@ -379,8 +379,8 @@ function App(props) {
                   <div>
                     <h1>Create Will3</h1>
                     <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
-                      Will3's are made up of <u>disbursements</u>. They define what percentage of your assets will go to
-                      your beneficiaries if y our Will3 is executed. Disbursements are stored on-chain, in the Will3
+                      A Will3 is made up of <u>disbursements</u>. They define what percentage of your assets will go to
+                      your beneficiaries when your Will3 is disbursed. Disbursements are stored on-chain in the Will3
                       smart contract.
                     </h5>
                   </div>
