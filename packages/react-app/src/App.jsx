@@ -21,6 +21,7 @@ import { InfoCircleOutlined } from "@ant-design/icons/lib/icons";
 import Dashboard from "./components/Dashboard";
 import { LoadingOutlined } from "@ant-design/icons";
 import { notification } from "antd";
+import ReleaseDisbursement from "./components/ReleaseDisbursement";
 
 const { ethers } = require("ethers");
 /*
@@ -439,6 +440,10 @@ function App(props) {
                 address={address}
               />
             )}
+          </Route>
+
+          <Route exact path="/release">
+            {writeContracts && tx && <ReleaseDisbursement tx={tx} writeContracts={writeContracts} />}
           </Route>
 
           <Route exact path="/debug">
