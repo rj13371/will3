@@ -149,7 +149,7 @@ export default function MoralisUtil(props) {
             </Fragment>
           ) : (
             <Fragment>
-              <tr style={{ width: "100%" }}>
+              <tr style={{ height: "60px", width: "100%" }}>
                 <td>Avalanche</td>
                 <td>AVAX</td>
                 <td>{Number(nativeBalance).toFixed(4)}</td>
@@ -163,7 +163,7 @@ export default function MoralisUtil(props) {
           )}
 
           {tokens.map((token, index) => (
-            <tr style={{ width: "100%" }} key={index}>
+            <tr style={{ height: "60px", width: "100%" }} key={index}>
               <td>{token.name}</td>
               <td>{token.symbol}</td>
               <td>{Number(ethers.utils.formatEther(token.balance)).toFixed(4)}</td>
