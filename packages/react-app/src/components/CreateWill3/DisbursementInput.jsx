@@ -212,7 +212,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
       </Form.Item>
 
       <Form.Item>
-        <Button shape="round" size="large" htmlType="submit">
+        <Button shape="round" size="large" htmlType="submit" block>
           Create Will3
         </Button>
       </Form.Item>
