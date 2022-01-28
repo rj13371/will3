@@ -72,33 +72,35 @@ export default function MoralisUtil(props) {
           }
         } catch (e) {
           if (e) {
-            window.alert(e);
+            console.log(e);
             setError(e);
           }
         }
       })();
 
       const checkAllAllowances = async () => {
-        for (const token of tokens) {
-          const checkWill3TokenAllowance = async () => {
-            try {
-              const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
+        if (tokens) {
+          tokens.forEach(async token => {
+            const checkWill3TokenAllowance = async () => {
+              try {
+                const tempContract = new ethers.Contract(token.token_address, erc20Abi, signer);
 
-              const result = await makeCall("allowance", tempContract, [userAddress, address]);
+                const result = await makeCall("allowance", tempContract, [userAddress, address]);
 
-              console.log(token);
+                console.log(token);
 
-              if (result._hex !== "0x00") {
-                token.isApproved = true;
-              } else {
-                token.isApproved = false;
+                if (result._hex !== "0x00") {
+                  token.isApproved = true;
+                } else {
+                  token.isApproved = false;
+                }
+                console.log(token);
+              } catch (e) {
+                console.log(e);
               }
-              console.log(token);
-            } catch (e) {
-              console.log(e);
-            }
-          };
-          await checkWill3TokenAllowance();
+            };
+            await checkWill3TokenAllowance();
+          });
         }
       };
 

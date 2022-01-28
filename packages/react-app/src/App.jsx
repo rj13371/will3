@@ -4,7 +4,7 @@ import { useBalance, useContractLoader, useContractReader, useGasPrice, useUserP
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Fragment } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { Account, Contract, Header } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
@@ -366,6 +366,26 @@ function App(props) {
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+  const [willExists, setWillExists] = useState(false);
+
+  useEffect(() => {
+    const getWill3 = async () => {
+      if (!writeContracts.Will3Master) {
+        return setWillExists(false);
+      }
+      const result = await writeContracts.Will3Master.getWill3(address);
+
+      console.log(result);
+
+      if (result.length !== 0) {
+        setWillExists(true);
+      } else {
+        setWillExists(false);
+      }
+    };
+    getWill3();
+  }, [address, writeContracts]);
+
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -379,7 +399,30 @@ function App(props) {
                 <div style={{ padding: 16, width: "80%", margin: "auto", marginTop: 24, paddingBottom: 160 }}>
                   <div>
                     <h1>Create Will3</h1>
-                    <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
+                    {willExists ? (
+                      <div
+                        style={{
+                          border: "1px solid rgba(255, 255, 255, 0.8)",
+                          padding: "30px 0px",
+                          margin: "20px auto 40px",
+                          width: "70%",
+                          backgroundColor: "rgba(255, 255, 255, 0.05)",
+                        }}
+                      >
+                        <h6 style={{ marginBottom: 4 }}>
+                          {"Will3 found for address — "}
+                          {address}
+                        </h6>
+                        <Link to="/dashboard">
+                          <Button style={{ width: "65%", height: 40, borderRadius: 40 }} ghost>
+                            Dashboard
+                          </Button>
+                        </Link>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <h5 style={{ width: "80%", minWidth: "400px", margin: "auto auto 24px" }}>
                       A Will3 is made up of <u>disbursements</u>. They define what percentage of your assets will go to
                       your beneficiaries when your Will3 is disbursed. Disbursements are stored on-chain in the Will3
                       smart contract.

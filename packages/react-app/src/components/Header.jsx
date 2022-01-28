@@ -10,7 +10,7 @@ export default function Header() {
     <a href="./" rel="noopener noreferrer">
       <PageHeader
         avatar={{ src: will3CircleIcon }}
-        subTitle="Your last wishes. Decentralized."
+        subTitle="Your last wishes, decentralized."
         style={{ cursor: "pointer" }}
       />
     </a>
