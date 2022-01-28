@@ -400,7 +400,14 @@ function App(props) {
                   <div>
                     <h1>Create Will3</h1>
                     {willExists ? (
-                      <div style={{ padding: "30px 0px", margin: "20px 0px 40px 0px", backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
+                      <div
+                        style={{
+                          border: "1px solid rgba(255, 255, 255, 0.8)",
+                          padding: "30px 0px",
+                          margin: "20px 0px 40px 0px",
+                          backgroundColor: "rgba(255, 255, 255, 0.05)",
+                        }}
+                      >
                         <h6 style={{ marginBottom: 4 }}>
                           {"Will3 found for address — "}
                           {address}
