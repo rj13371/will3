@@ -415,14 +415,14 @@ function App(props) {
                         </h6>
                         <Link to="/dashboard">
                           <Button style={{ width: "65%", height: 40, borderRadius: 40 }} ghost>
-                            Go to Dashboard
+                            Dashboard
                           </Button>
                         </Link>
                       </div>
                     ) : (
                       ""
                     )}
-                    <h5 style={{ width: "75%", minWidth: "400px", margin: "auto auto 24px" }}>
+                    <h5 style={{ width: "80%", minWidth: "400px", margin: "auto auto 24px" }}>
                       A Will3 is made up of <u>disbursements</u>. They define what percentage of your assets will go to
                       your beneficiaries when your Will3 is disbursed. Disbursements are stored on-chain in the Will3
                       smart contract.
