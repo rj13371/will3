@@ -486,7 +486,9 @@ function App(props) {
           </Route>
 
           <Route exact path="/release">
-            {writeContracts && tx && <ReleaseDisbursement tx={tx} writeContracts={writeContracts} />}
+            {writeContracts && tx && (
+              <ReleaseDisbursement localProvider={localProvider} tx={tx} writeContracts={writeContracts} />
+            )}
           </Route>
 
           <Route exact path="/debug">
