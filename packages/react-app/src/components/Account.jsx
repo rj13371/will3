@@ -64,11 +64,6 @@ export default function Account({
           >
             Logout
           </Button>
-          <a href="/dashboard">
-            <Button style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }} shape="round" size="large">
-              Dashboard
-            </Button>
-          </a>
         </Fragment>,
       );
     } else {
