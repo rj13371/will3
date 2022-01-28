@@ -404,7 +404,8 @@ function App(props) {
                         style={{
                           border: "1px solid rgba(255, 255, 255, 0.8)",
                           padding: "30px 0px",
-                          margin: "20px 0px 40px 0px",
+                          margin: "20px auto 40px",
+                          width: "70%",
                           backgroundColor: "rgba(255, 255, 255, 0.05)",
                         }}
                       >
