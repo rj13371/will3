@@ -21,8 +21,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
 
   const [disbursementFormPercentages, setDisbursementFormPercentages] = useState([]);
 
-  const [willExists, setWillExists] = useState(false);
-
   const emailRef = useRef(null);
   const didMount = useRef(false);
 
@@ -146,24 +144,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
     }
   }, [disbursementFormBeneficiaryAddresses]);
 
-  useEffect(() => {
-    const getWill3 = async () => {
-      if (!writeContracts.Will3Master) {
-        return setWillExists(false);
-      }
-      const result = await writeContracts.Will3Master.getWill3(userAddress);
-
-      console.log(result);
-
-      if (result.length !== 0) {
-        setWillExists(true);
-      } else {
-        setWillExists(false);
-      }
-    };
-    getWill3();
-  }, [userAddress, writeContracts]);
-
   return (
     <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
       <Form.List name="disbursements">
@@ -236,14 +216,6 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
           Create Will3
         </Button>
       </Form.Item>
-
-      {willExists ? (
-        <h6>
-          {"Will 3 detected! Go to your dashboard"} <Link to="/dashboard">here</Link>
-        </h6>
-      ) : (
-        ""
-      )}
     </Form>
   );
 }
