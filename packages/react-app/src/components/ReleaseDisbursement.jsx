@@ -53,19 +53,26 @@ export default function ReleaseDisbursement(props) {
   return (
     <Fragment>
       <div>
-        <h1>Release Will 3</h1>
+        <h1>Manually Disburse Will3</h1>
       </div>
       <Form name="sign" onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
         <Row justify="center">
-          <Col span={6}>
-            <Title level={4}>Deceased Address</Title>
+          <Col span={16}>
+            <Title level={5}>
+              Will3’s are automatically disbursed using Chainlink Keepers, a third-party service. In the event that
+              Keepers fails to function for whatever reason, we have provided a manual process for disbursing Will3’s
+              that should have been disbursed automatically. If a Will3’s disbursal block has passed, any user can send
+              a transaction to disburse the Will3 owner’s wallet to the designated beneficiaries in their Will3. <br />
+              <br />
+              {"This will work ONLY if the disbursal block for that Will3 has passed."}
+            </Title>
           </Col>
         </Row>
 
         <Row justify="center">
           <Col span={6}>
             <Form.Item
-              style={size.width < 700 ? { width: "120px", right: "80px" } : { width: "380px" }}
+              style={size.width < 700 ? { width: "120px", right: "80px" } : { padding: "20px", width: "460px" }}
               name="deceasedAddress"
               rules={[
                 { required: true },
