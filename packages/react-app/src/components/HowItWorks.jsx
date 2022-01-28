@@ -56,7 +56,7 @@ export default function HowItWorks() {
             liquidity pool.
           </p>
         </Panel>
-        <Panel style={{ fontSize: headerFontSize }} header="Do I need a Wallet to use Will 3?" key="6">
+        <Panel style={{ fontSize: headerFontSize }} header="Do I need a cryptocurrency wallet to use Will3?" key="6">
           <p style={{ margin: contentMargin }}>
             You and your beneficiaries will need a cryptocurrency wallet to receive assets designated from you upon
             release of your Will3. We recommend using <a href="https://metamask.io/">MetaMask</a> or{" "}
