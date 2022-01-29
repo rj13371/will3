@@ -14,7 +14,6 @@ const serverUrl = "https://nroyfimbebmn.usemoralis.com:2053/server";
 export default function Dashboard(props) {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const [loading, setLoading] = useState(false);
-  const [increaseFunctionCalled, setIncreaseFunctionCalled] = useState(0);
   const { writeContracts, address, chainId, localProvider, tx } = props;
   const [will, setWill] = useState([]);
   const [dayTimer, setDayTimer] = useState(0);
@@ -85,20 +84,31 @@ export default function Dashboard(props) {
 
           const url = `https://api-testnet.snowtrace.io/api?module=block&action=getblockcountdown&blockno=${disbursementBlock}&apikey=YourApiKeyToken`;
 
-          fetch(url)
-            .then(res => res.json())
-            .then(res => {
-              if (res.status === "1") {
-                const seconds = Number(res.result.EstimateTimeInSec);
-                const days = Math.floor(seconds / (3600 * 24));
-                console.log(days);
-                setDayTimer(days);
-              } else if (res.result === "Error! Block number already pass") {
-                setDayTimer(0);
-              } else {
-                window.alert("an unknown error has occured");
-              }
-            });
+          try {
+            fetch(url)
+              .then(res => {
+                if (!res.ok) {
+                  throw new Error(res.statusText);
+                } else {
+                  return res.json();
+                }
+              })
+              .then(res => {
+                if (res.status === "1") {
+                  const seconds = Number(res.result.EstimateTimeInSec);
+                  const days = Math.floor(seconds / (3600 * 24));
+                  console.log(days);
+                  setDayTimer(days);
+                } else if (res.result === "Error! Block number already pass") {
+                  setDayTimer(0);
+                } else {
+                  window.alert("an unknown error has occured");
+                }
+              });
+          } catch (e) {
+            window.alert(e);
+          }
+
           setBlock(disbursementBlock);
           setWill(wills);
           setLoading(false);
@@ -122,9 +132,9 @@ export default function Dashboard(props) {
           {address && will.length > 0 ? (
             <>
               <h6 style={{ textAlign: "left", width: "45%", float: "left" }}>
-                {dayTimer
+                {localProvider._lastBlockNumber < block
                   ? `Your Will3 is Disburseable in approximately ${dayTimer} Days`
-                  : `Your Will was Disbursed on block ${block}`}
+                  : `Your Will3 was Disbursed on block ${block}`}
                 <Tooltip placement="top" title="Time will vary based on the average block transaction speed">
                   <InfoCircleOutlined
                     style={{ marginLeft: "6px", verticalAlign: "0.125em", marginBottom: "12px", fontSize: "16px" }}
