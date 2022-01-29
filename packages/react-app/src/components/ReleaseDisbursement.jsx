@@ -26,7 +26,7 @@ export default function ReleaseDisbursement(props) {
 
           notification.info({
             className: "frontendModal",
-            message: "Will 3 Release Fail",
+            message: "Will3 Release Fail",
             description: `Disbursement Block has not passed`,
             placement: "topLeft",
             duration: 4,
@@ -37,7 +37,7 @@ export default function ReleaseDisbursement(props) {
         if (update && (update.status === "confirmed" || update.status === 1)) {
           notification.info({
             className: "frontendModal",
-            message: "Will 3 Release Success!",
+            message: "Will3 Release Success!",
             description: "Funds have been sent to beneficiaries",
             placement: "topLeft",
             duration: 4,
@@ -99,7 +99,7 @@ export default function ReleaseDisbursement(props) {
         <Row justify="center">
           <Col span={6}>
             <Form.Item
-              style={size.width < 700 ? { width: "120px", right: "80px" } : { padding: "20px", width: "460px" }}
+              style={size.width < 700 ? { width: "120px", right: "80px" } : { padding: "20px", width: "400px" }}
               name="deceasedAddress"
               rules={[
                 { required: true },
