@@ -139,7 +139,7 @@ export default function MoralisUtil(props) {
                 <th style={{ width: "30%" }}>Asset</th>
                 <th style={{ width: "10%" }}>Symbol</th>
                 <th style={{ width: "30%" }}>Balance</th>
-                <th style={{ width: "30%" }}>Approval</th>
+                <th style={{ width: "30%" }}>Will3 Approval</th>
               </tr>
             </thead>
             <tbody>
