@@ -29,6 +29,11 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
         address receivingAddress;
     }
 
+    struct TokenEntry {
+        address tokenAddress;
+        uint256 amount;
+    }
+
     address[] activeWill3Addresses;
 
     mapping(address => Will3[]) public addressToWill3;
@@ -137,16 +142,38 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
         require(addressToDisburseBlock[deceasedAddress] < block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
         require(addressToWill3Disbursed[deceasedAddress] == false, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
         Will3[] memory wills = addressToWill3[deceasedAddress];
-        for (uint i=0; i<wills.length; i++) {
+        /*
+        TokenEntry[10] memory tokenEntries;
+        for (uint k = 0; k < tokenEntries.length; k++) {
+            tokenEntries[k].tokenAddress = address(msg.sender);
+            tokenEntries[k].amount = 0;
+        }
+        */
+        for (uint i = 0; i < wills.length; i++) {
             ERC20 token = ERC20(wills[i].assetAddress);
             if (isContract(wills[i].assetAddress)) {
                 uint256 amountOfToken = token.balanceOf(deceasedAddress);
                 // check permissions for contract to be able to send asset on behalf of address
                 if (token.allowance(deceasedAddress, address(this)) > 0) {
-                    // if yes, check if this is the first time coming across this asset, if yes, store the amount of asset in wallet in memory
-                    // if yes, send the asset to the address
-                    uint tokenAmount = (uint(amountOfToken) / 100) * wills[i].percentageOfHoldings;
-                    token.transferFrom(deceasedAddress, wills[i].receivingAddress, tokenAmount);
+                    bool isInArray = false;
+                    TokenEntry memory tokEntry;
+                    /*
+                    for (uint j = 0; j < tokenEntries.length; j++) {
+                        if (tokenEntries[j].tokenAddress == wills[i].assetAddress) {
+                            isInArray = true;
+                            tokEntry = tokenEntries[j];
+                        }
+                    }
+                    */
+                    if (!isInArray) {
+                        tokEntry = TokenEntry(wills[i].assetAddress, amountOfToken);
+                        // tokenEntries[tokenEntries.length] = tokEntry;
+                    }
+                    uint amountToDisburse = (tokEntry.amount / 100) * wills[i].percentageOfHoldings;
+                    if (amountOfToken < amountToDisburse) {
+                        amountToDisburse = amountOfToken;
+                    }
+                    token.transferFrom(deceasedAddress, wills[i].receivingAddress, amountToDisburse);
                 }
             }
         }

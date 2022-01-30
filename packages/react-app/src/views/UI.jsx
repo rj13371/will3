@@ -57,7 +57,7 @@ export default function UI({ address, loadWeb3Modal, setRoute }) {
             </Button>
           )}
         </div>
-        <Image width={500} src={homePageGif} style={{ border: "2px solid white" }} />
+        <img width={500} src={homePageGif} style={{ border: "2px solid white" }} />
         <HowItWorks />
         <Team />
       </Content>
