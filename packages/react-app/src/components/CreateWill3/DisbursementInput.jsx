@@ -160,7 +160,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
                     parser={value => value.replace("%", "")}
                   />
                 </Form.Item>
-                of the
+                of your
                 <Form.Item name={[name, "token_address"]} style={{ minWidth: "100px" }}>
                   <Select>
                     {/* change avax value to its address later */}
@@ -175,7 +175,7 @@ export default function DisbursementInput({ tx, writeContracts, userAddress }) {
                     ))}
                   </Select>
                 </Form.Item>
-                asset will be sent to
+                assets will be sent to
                 <Form.Item
                   {...restField}
                   name={[name, "beneficiary_address"]}
