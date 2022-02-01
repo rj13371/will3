@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { HowItWorks, Team } from "../components";
 import { Link } from "react-router-dom";
 
-export default function UI({ address, loadWeb3Modal, setRoute }) {
+export default function UI({ address, loadWeb3Modal, setRoute, userSigner }) {
   const titleImage = "./../assets/will3-white.png";
   const homePageGif = "./../assets/digging-compressed.gif";
   const chainlink = "./../assets/chainlink.svg";
@@ -35,7 +35,7 @@ export default function UI({ address, loadWeb3Modal, setRoute }) {
           the right hands.
         </h5>
         <div style={{ margin: 8, marginBottom: 60, marginTop: 24 }}>
-          {!address ? (
+          {!userSigner ? (
             <Button className="connect-wallet-button" onClick={loadWeb3Modal}>
               <h5 style={{ color: "black" }}>Connect your wallet to continue</h5>
             </Button>

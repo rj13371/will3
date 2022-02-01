@@ -503,7 +503,7 @@ function App(props) {
           </Route>
 
           <Route path="/">
-            <UI address={address} loadWeb3Modal={loadWeb3Modal} setRoute={setRoute} />
+            <UI address={address} userSigner={userSigner} loadWeb3Modal={loadWeb3Modal} setRoute={setRoute} />
           </Route>
         </Switch>
       </BrowserRouter>

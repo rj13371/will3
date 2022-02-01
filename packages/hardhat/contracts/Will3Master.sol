@@ -142,7 +142,7 @@ contract Will3Master is Ownable, KeeperCompatibleInterface  {
         require(addressToDisburseBlock[deceasedAddress] < block.number, "DISBURSEMENT BLOCK HAS NOT PASSED YET");
         require(addressToWill3Disbursed[deceasedAddress] == false, "DISBURSEMENT HAS ALREADY BEEN EXECUTED");
         Will3[] memory wills = addressToWill3[deceasedAddress];
-        TokenEntry[10] memory tokenEntries;
+        TokenEntry[20] memory tokenEntries;
         for (uint k = 0; k < tokenEntries.length; k++) {
             tokenEntries[k].tokenAddress = address(msg.sender);
             tokenEntries[k].amount = 0;
